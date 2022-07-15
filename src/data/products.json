@@ -1,0 +1,95 @@
+[
+  {
+    "id": "e3de12b7-fb18-43a2-b47f-b9f9f8f8f8f8f",
+    "name": "Samsung Memory",
+    "slug": "samsung-memory",
+    "price": "1,000",
+    "description": "Samsung Memory",
+    "currency": "£",
+    "images": "photo-1657214059153-4652d058965f.avif",
+    "category": "Electronics"
+  },
+  {
+    "id": "e3de12b7-fb18-43a2-b47f-f8f8f8f8f8f8",
+    "name": "Reloj blanco",
+    "slug": "reloj-blanco",
+    "price": "500",
+    "description": "Reloj pulsera blanco",
+    "currency": "USD",
+    "images": "photo-1523275335684-37898b6baf30.avif",
+    "category": "Electronics"
+  },
+  {
+    "id": "e3de12b7-fb18-43a2-b47f-b8f8f8f8f8f8f",
+    "name": "Auriculares",
+    "slug": "auriculares",
+    "price": "300",
+    "description": "Auriculares inalambricos de alta calidad",
+    "currency": "USD",
+    "images": "photo-1505740420928-5e560c06d30e.avif",
+    "category": "Electronics"
+  },
+  {
+    "id": "e3de12b7-fb18-43a2-b47f-be9f9c9b8f8f",
+    "name": "Gafas de sol",
+    "slug": "gafas-de-sol",
+    "price": "200",
+    "description": "Gafas de sol de alta calidad",
+    "currency": "USD",
+    "images": "photo-1572635196237-14b3f281503f.avif",
+    "category": "Moda"
+  },
+  {
+    "id": "e3de12b7-fb18-43a2-b47f-be94b8f8f8f8",
+    "name": "Zapatillas",
+    "slug": "zapatillas",
+    "price": "13380",
+    "description": "Zapatillas Nike Rojas",
+    "currency": "ARS$",
+    "images": "photo-1542291026-7eec264c27ff.avif",
+    "category": "Sports"
+  },
+  {
+    "id": "e3de12b7-fb18-43a2-b47f-be940e7f7f01",
+    "name": "Alta voz",
+    "slug": "alta-voz",
+    "price": "220",
+    "description": "Alta voz portatil de alta calidad",
+    "currency": "USD",
+    "images": "photo-1543512214-318c7553f230.avif",
+    "category": "Electronics"
+  },
+  {
+    "id": "e3de12b7-fb18-43a2-b47f-be940286e8f9",
+    "name": "Camara",
+    "slug": "camara",
+    "price": "1200",
+    "description": "Camara Nikon de alta calidad",
+    "currency": "USD",
+    "images": "photo-1564466809058-bf4114d55352.avif",
+    "category": "Electronics"
+  },
+  {
+    "id": "e3de12b7-fb18-43a2-b47f-be9402862f8f",
+    "name": "Joystick",
+    "slug": "joystick",
+    "price": "800",
+    "description": "Joystick inalambrico xbox blanco",
+    "currency": "USD",
+    "images": "photo-1600080972464-8e5f35f63d08.avif",
+    "category": "Gaming"
+  },
+  {
+    "id": "e3de12b7-fb18-43a2-b47f-be9402862128",
+    "name": "Termo lumilagro",
+    "slug": "termo-lumilagro",
+    "description": "Un termo muy copado",
+    "currency": "ARS$",
+    "price": "9800",
+    "images": [
+      "1657907512350.jpg",
+      "1657907512353.jpg",
+      "1657907512355.jpg"
+    ]
+  }
+]

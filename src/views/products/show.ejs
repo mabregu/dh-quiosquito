@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/head', { title: ' | Product detail' }) %>
+</head>
+
+<body class="bg-white text-gray-600 work-sans leading-normal text-base tracking-normal">
+  <!--Nav-->
+  <%- include('../partials/nav') %>
+
+  <section class="bg-white py-8">
+    <div class="pt-6">
+      <!-- Image gallery -->
+      <div class="mt-6 max-w-2xl mx-auto sm:px-6 lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-3 lg:gap-x-8">
+        <% if (Array.isArray(product.images)) { %>
+          <% product.images.forEach(image => { %>
+            <div class="hidden aspect-w-3 aspect-h-4 rounded-lg overflow-hidden lg:block">
+              <img src="/img/uploads/<%= image %>" 
+                alt="Two each of gray, white, and black shirts laying flat."
+                class="w-full h-full object-center object-cover"
+              >
+            </div>
+          <% }) %>
+        <% } else { %>
+          <div class="hidden aspect-w-3 aspect-h-4 rounded-lg overflow-hidden lg:block">
+            <img src="/img/uploads/<%= product.images %>" 
+              alt="Two each of gray, white, and black shirts laying flat."
+              class="w-full h-full object-center object-cover"
+            >
+          </div>
+        <% } %>
+      </div>
+
+      <!-- Product info -->
+      <div class="max-w-2xl mx-auto pt-10 pb-16 px-4 sm:px-6 lg:max-w-7xl lg:pt-16 lg:pb-24 lg:px-8 lg:grid lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8">
+        <div class="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
+          <h1 class="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
+            <%= product.name %>
+          </h1>
+        </div>
+
+        <!-- Options -->
+        <div class="mt-4 lg:mt-0 lg:row-span-3">
+          <h2 class="sr-only">Product information</h2>
+          <p class="text-3xl text-gray-900">
+            <span class="font-bold"><%= product.currency %></span>
+            <span class="font-bold"><%= product.price %></span>
+          </p>
+
+          <!-- Reviews -->
+          <%- include('../components/reviews') %>
+
+          <form class="mt-10">
+            <button type="submit" class="mt-10 w-full bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Add to bag</button>
+          </form>
+        </div>
+
+        <div class="py-10 lg:pt-6 lg:pb-16 lg:col-start-1 lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
+          <!-- Description and details -->
+          <div>
+            <h3 class="sr-only">Description</h3>
+            <div class="space-y-6">
+              <p class="text-base text-gray-900">
+                <%= product.description %>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <%- include('../about') %>
+
+  <!-- Footer -->
+  <%- include('../partials/footer') %>
+</body>
+
+</html>

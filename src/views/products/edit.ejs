@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/head', { title: ' | Edit Product' }) %>
+</head>
+
+<body class="bg-white text-gray-600 work-sans leading-normal text-base tracking-normal">
+    <!--Nav-->
+    <%- include('../partials/nav') %>
+
+    <div class="flex items-center justify-center py-12 px-4">
+        <form class="w-3/4"
+            action="/products/edit/<%= product.slug %>"
+            method="post" 
+            enctype="multipart/form-data"
+        >
+            <div class="shadow sm:rounded-md sm:overflow-hidden">
+                <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
+                    <h2>Create Product</h2>
+                    <div class="grid grid-cols-3 gap-6">
+                        <div class="col-span-3 sm:col-span-2">
+                            <label for="name" class="block text-sm font-medium text-gray-700">
+                                Product name
+                            </label>
+                            <div class="mt-1 flex rounded-md shadow-sm">
+                                <input type="text" 
+                                    value="<%= product.name %>"
+                                    name="name" 
+                                    id="name" 
+                                    class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
+                                    placeholder="Termo Lumilagro"
+                                >
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-6">
+                        <div class="col-span-3 sm:col-span-2">
+                            <label for="price" class="block text-sm font-medium text-gray-700">
+                                Currency
+                            </label>
+                            <div class="mt-1 flex rounded-md shadow-sm">
+                                <select class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
+                                    name="currency" 
+                                    id="currency"
+                                >
+                                    <% currencies.forEach(currency => { %>
+                                        <option value="<%= currency.symbol %>"
+                                            <% if (currency.symbol === product.currency) { %>
+                                                selected
+                                            <% } %>
+                                        >
+                                            <%= currency.symbol %>
+                                            <%= currency.name %>
+                                        </option>
+                                    <% }) %>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-6">
+                        <div class="col-span-3 sm:col-span-2">
+                            <label for="price" class="block text-sm font-medium text-gray-700">
+                                Price
+                            </label>
+                            <div class="mt-1 flex rounded-md shadow-sm">
+                                <input type="number" 
+                                    value="<%= product.price %>"
+                                    name="price" 
+                                    id="price" 
+                                    class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
+                                    placeholder="9800"
+                                >
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                        <div class="mt-1">
+                            <textarea id="description" 
+                                name="description" 
+                                rows="3" 
+                                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"
+                            ><%= product.description %></textarea>
+                        </div>
+                        <p class="mt-2 text-sm text-gray-500">Brief description for your product.</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700"> Cover photo </label>
+                        <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                            <!-- Image gallery -->
+                            <div class="mt-6 max-w-2xl mx-auto sm:px-6 lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-3 lg:gap-x-8">
+                                <% if (Array.isArray(product.images)) { %>
+                                    <% product.images.forEach(image => { %>
+                                        <div class="hidden aspect-w-3 aspect-h-4 rounded-lg overflow-hidden lg:block border-2 border-gray-300 border-dashed">
+                                            <button class="flex justify-center items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-red-600 bg-white hover:bg-gray-100 focus:outline-none focus:border-gray-300 focus:shadow-outline-gray active:bg-gray-100 transition ease-in-out duration-150"
+                                                type="button"
+                                                data-image="<%= image %>"
+                                                onclick="deleteImage(this)"
+                                            >
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                </svg>
+                                            </button>
+
+                                            <img src="/img/uploads/<%= image %>" 
+                                                alt="Two each of gray, white, and black shirts laying flat."
+                                                class="w-full h-full object-center object-cover"
+                                            >
+                                        </div>
+                                    <% }) %>
+                                <% } else { %>
+                                <div class="hidden aspect-w-3 aspect-h-4 rounded-lg overflow-hidden lg:block">
+                                    <img src="/img/uploads/<%= product.images %>" 
+                                    alt="Two each of gray, white, and black shirts laying flat."
+                                    class="w-full h-full object-center object-cover"
+                                    >
+                                </div>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+                    <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- About -->
+    <%- include('../about') %>
+
+    <!-- Footer -->
+    <%- include('../partials/footer') %>
+
+    <!-- scripts -->
+    <script src="/js/images.js"></script>
+</body>
+
+</html>
