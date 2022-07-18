@@ -22,10 +22,11 @@ const productsController = {
     },
     store: (req, res) => {
         const errors = validationResult(req);
-        
+
         if (!errors.isEmpty()) {
             return res.render('products/create', {
                 errors: errors.mapped(),
+                old: req.body,
                 currencies: currencyList
             });
         }
@@ -51,7 +52,7 @@ const productsController = {
         productList.push(products);
         
         fs.writeFileSync(productListPath, JSON.stringify(productList, null, 2));
-        
+
         res.redirect('/');
     },
     edit: (req, res) => {

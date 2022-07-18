@@ -91,5 +91,27 @@
       "1657907512353.jpg",
       "1657907512355.jpg"
     ]
+  },
+  {
+    "id": "abfb271e-2de3-4781-b70f-84b7e1ca4e7c",
+    "name": "Mate",
+    "slug": "mate",
+    "description": "Matesuli bien argento",
+    "currency": "$",
+    "price": "520",
+    "images": [
+      "1658177330088.jpg"
+    ]
+  },
+  {
+    "id": "01277c7a-3046-4664-a70e-ed727719ba0a",
+    "name": "Mate",
+    "slug": "mate",
+    "description": "Matesuli bien argento",
+    "currency": "$",
+    "price": "520",
+    "images": [
+      "1658177375564.jpg"
+    ]
   }
 ]

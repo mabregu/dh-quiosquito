@@ -15,10 +15,6 @@
             method="post" 
             enctype="multipart/form-data"
         >
-            <div class="errors">
-                <%- include('../partials/errors') %>
-            </div>
-
             <div class="shadow sm:rounded-md sm:overflow-hidden">
                 <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
                     <h2>Create Product</h2>
@@ -28,8 +24,19 @@
                                 Product name
                             </label>
                             <div class="mt-1 flex rounded-md shadow-sm">
-                                <input type="text" name="name" id="name" class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300" placeholder="Termo Lumilagro">
+                                <input type="text" 
+                                    name="name" 
+                                    id="name" 
+                                    value="<%= locals.old && locals.old.name ? locals.old.name : '' %>"
+                                    class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
+                                    placeholder="Termo Lumilagro"
+                                >
                             </div>
+                            <% if (locals.errors && errors.name) { %>
+                                <span class="text-red-500 text-sm">
+                                    <%= errors.name.msg %>
+                                </span>
+                            <% } %>
                         </div>
                     </div>
 
@@ -51,6 +58,11 @@
                                     <% }) %>
                                 </select>
                             </div>
+                            <% if (locals.errors && errors.currency) { %>
+                                <span class="text-red-500 text-sm">
+                                    <%= errors.currency.msg %>
+                                </span>
+                            <% } %>
                         </div>
                     </div>
 
@@ -60,17 +72,37 @@
                                 Price
                             </label>
                             <div class="mt-1 flex rounded-md shadow-sm">
-                                <input type="number" name="price" id="price" class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300" placeholder="9800">
+                                <input type="number" 
+                                    name="price" 
+                                    id="price" 
+                                    value="<%= locals.old && locals.old.price ? locals.old.price : '' %>"
+                                    class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
+                                    placeholder="9800"
+                                >
                             </div>
+                            <% if (locals.errors && errors.price) { %>
+                                <span class="text-red-500 text-sm">
+                                    <%= errors.price.msg %>
+                                </span>
+                            <% } %>
                         </div>
                     </div>
 
                     <div>
                         <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
                         <div class="mt-1">
-                            <textarea id="description" name="description" rows="3" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"></textarea>
+                            <textarea id="description" 
+                                name="description" 
+                                rows="3" 
+                                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"
+                            ><%= locals.old && locals.old.description ? locals.old.description : '' %></textarea>
                         </div>
                         <p class="mt-2 text-sm text-gray-500">Brief description for your product.</p>
+                        <% if (locals.errors && errors.description) { %>
+                            <span class="text-red-500 text-sm">
+                                <%= errors.description.msg %>
+                            </span>
+                        <% } %>
                     </div>
 
                     <div>
@@ -87,6 +119,11 @@
                                 </label>
                                 <p class="pl-1">or drag and drop</p>
                             </div>
+                            <% if (locals.errors && errors.images) { %>
+                                <span class="text-red-500 text-sm">
+                                    <%= errors.images.msg %>
+                                </span>
+                            <% } %>
                             <p class="text-xs text-gray-500">PNG, JPG up to 10MB</p>
                             </div>
                         </div>
