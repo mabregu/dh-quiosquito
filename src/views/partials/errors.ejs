@@ -1,0 +1,7 @@
+<% if (locals.errors) { %>
+<p class="mt-2 text-sm text-red-500">
+    <% locals.errors.forEach(error => { %>
+        <%= error %>
+    <% }) %>
+</p>
+<% } %>

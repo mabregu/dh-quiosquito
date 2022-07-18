@@ -1,6 +1,7 @@
 const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
 const path = require('path');
+const { validationResult } = require('express-validator');
 
 const productListPath = path.resolve(__dirname, '../data/products.json');
 const productList = JSON.parse(fs.readFileSync(productListPath, 'utf8'));
@@ -19,7 +20,16 @@ const productsController = {
             currencies: currencyList
         });
     },
-    store: (req, res) => {        
+    store: (req, res) => {
+        const errors = validationResult(req);
+        
+        if (!errors.isEmpty()) {
+            return res.render('products/create', {
+                errors: errors.mapped(),
+                currencies: currencyList
+            });
+        }
+        
         let images = req.files;
         let imagesArray = [];
         for (let i = 0; i < images.length; i++) {
