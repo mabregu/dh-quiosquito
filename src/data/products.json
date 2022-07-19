@@ -7,7 +7,8 @@
     "description": "Samsung Memory",
     "currency": "£",
     "images": "photo-1657214059153-4652d058965f.avif",
-    "category": "Electronics"
+    "category": "Electronics",
+    "favorite": false
   },
   {
     "id": "e3de12b7-fb18-43a2-b47f-f8f8f8f8f8f8",
@@ -17,7 +18,8 @@
     "description": "Reloj pulsera blanco",
     "currency": "USD",
     "images": "photo-1523275335684-37898b6baf30.avif",
-    "category": "Electronics"
+    "category": "Electronics",
+    "favorite": false
   },
   {
     "id": "e3de12b7-fb18-43a2-b47f-b8f8f8f8f8f8f",
@@ -27,7 +29,8 @@
     "description": "Auriculares inalambricos de alta calidad",
     "currency": "USD",
     "images": "photo-1505740420928-5e560c06d30e.avif",
-    "category": "Electronics"
+    "category": "Electronics",
+    "favorite": true
   },
   {
     "id": "e3de12b7-fb18-43a2-b47f-be9f9c9b8f8f",
@@ -37,7 +40,8 @@
     "description": "Gafas de sol de alta calidad",
     "currency": "USD",
     "images": "photo-1572635196237-14b3f281503f.avif",
-    "category": "Moda"
+    "category": "Moda",
+    "favorite": false
   },
   {
     "id": "e3de12b7-fb18-43a2-b47f-be94b8f8f8f8",
@@ -47,7 +51,8 @@
     "description": "Zapatillas Nike Rojas",
     "currency": "ARS$",
     "images": "photo-1542291026-7eec264c27ff.avif",
-    "category": "Sports"
+    "category": "Sports",
+    "favorite": false
   },
   {
     "id": "e3de12b7-fb18-43a2-b47f-be940e7f7f01",
@@ -57,7 +62,8 @@
     "description": "Alta voz portatil de alta calidad",
     "currency": "USD",
     "images": "photo-1543512214-318c7553f230.avif",
-    "category": "Electronics"
+    "category": "Electronics",
+    "favorite": false
   },
   {
     "id": "e3de12b7-fb18-43a2-b47f-be940286e8f9",
@@ -67,7 +73,8 @@
     "description": "Camara Nikon de alta calidad",
     "currency": "USD",
     "images": "photo-1564466809058-bf4114d55352.avif",
-    "category": "Electronics"
+    "category": "Electronics",
+    "favorite": false
   },
   {
     "id": "e3de12b7-fb18-43a2-b47f-be9402862f8f",
@@ -77,7 +84,8 @@
     "description": "Joystick inalambrico xbox blanco",
     "currency": "USD",
     "images": "photo-1600080972464-8e5f35f63d08.avif",
-    "category": "Gaming"
+    "category": "Gaming",
+    "favorite": true
   },
   {
     "id": "e3de12b7-fb18-43a2-b47f-be9402862128",
@@ -90,28 +98,8 @@
       "1657907512350.jpg",
       "1657907512353.jpg",
       "1657907512355.jpg"
-    ]
-  },
-  {
-    "id": "abfb271e-2de3-4781-b70f-84b7e1ca4e7c",
-    "name": "Mate",
-    "slug": "mate",
-    "description": "Matesuli bien argento",
-    "currency": "$",
-    "price": "520",
-    "images": [
-      "1658177330088.jpg"
-    ]
-  },
-  {
-    "id": "01277c7a-3046-4664-a70e-ed727719ba0a",
-    "name": "Mate",
-    "slug": "mate",
-    "description": "Matesuli bien argento",
-    "currency": "$",
-    "price": "520",
-    "images": [
-      "1658177375564.jpg"
-    ]
+    ],
+    "category": "food",
+    "favorite": false
   }
 ]

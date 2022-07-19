@@ -13,7 +13,8 @@ router.post('/create', upload.array('images', 5), validateProduct, productsContr
 router.get('/edit/:slug', productsController.edit);
 router.put('/edit/:slug', productsController.update);
 
-router.get('/:slug', productsController.show);
+router.delete('/delete/:slug', productsController.delete);
 
+router.get('/:slug', productsController.show);
 
 module.exports = router;
