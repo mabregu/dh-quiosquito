@@ -14,11 +14,11 @@
                 <ul class="md:flex items-center justify-between text-base text-gray-700 pt-4 md:pt-0">
                     <li><a class="inline-block no-underline hover:text-black hover:underline py-2 px-4" href="/">Shop</a></li>
                     <li><a class="inline-block no-underline hover:text-black hover:underline py-2 px-4" href="#about">About</a></li>
-                    <li>
+                    <!-- <li>
                         <a class="inline-block no-underline hover:text-black hover:underline py-2 px-4" href="/products/create">
                             Create
                         </a>
-                    </li>
+                    </li> -->
                 </ul>
             </nav>
         </div>
@@ -38,6 +38,9 @@
                 <div class="flex items-center">
                     <a class="no-underline hover:no-underline text-gray-800 text-sm px-4" href="/profile">
                         <%= user.name %>
+                    </a>
+                    <a class="no-underline hover:no-underline text-gray-800 text-sm px-4" href="/products/create">
+                        Create
                     </a>
                     <a class="no-underline hover:no-underline text-gray-800 text-sm px-4" href="/logout">
                         Logout

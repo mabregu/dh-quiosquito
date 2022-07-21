@@ -1,5 +1,6 @@
 [
   {
+    "id": "1",
     "username": "admin",
     "name": "Maurice",
     "surname": "Sanchez",
@@ -8,14 +9,7 @@
     "city": "New York"
   },
   {
-    "username": "user",
-    "name": "John",
-    "surname": "Doe",
-    "password": "123456",
-    "birthday": "01/01/2000",
-    "city": "Mexico City"
-  },
-  {
+    "id": "3",
     "username": "user2",
     "name": "Jane",
     "surname": "Doe",
@@ -24,13 +18,16 @@
     "city": "Tucuman"
   },
   {
-    "name": "Juana",
-    "username": "juana@loca.com",
-    "password": "12345678"
-  },
-  {
+    "id": "5",
     "name": "Martin",
     "username": "martin@gmail.com",
+    "city": "Tucuman",
     "password": "$2b$10$PUdFN44G5Mx3DC6PdWe9OeZXNerz3aKz/qsy7tDXQzxvwmmaMQuQq"
+  },
+  {
+    "name": "Mate",
+    "username": "tincho_16_9@hotmail.com",
+    "password": "$2b$10$bbACMArVHssBaJRwX7ndu.UoxVHyynhSgwrDo67SA.nSSFyifh.c.",
+    "id": "a52634c7-e170-4889-a486-c91526241064"
   }
 ]

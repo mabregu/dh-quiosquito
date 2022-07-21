@@ -10,6 +10,8 @@ router.get('/contact', mainController.contact);
 router.get('/login', mainController.login);
 router.post('/login', mainController.loginProcess);
 
+router.get('/logout', mainController.logout);
+
 router.get('/register', mainController.register);
 router.post('/register', mainController.registerProcess);
 

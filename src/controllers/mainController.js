@@ -9,6 +9,8 @@ const productList = JSON.parse(fs.readFileSync(productListPath, 'utf8'));
 const userListPath = path.resolve(__dirname, '../data/users.json');
 const userList = JSON.parse(fs.readFileSync(userListPath, 'utf8'));
 
+const UserModel = require('../models/userModel');
+
 const mainController = {
     home: function (req, res) {
         let user = req.session.user;        
@@ -54,21 +56,41 @@ const mainController = {
             });
         }
     },
+    logout: function (req, res) {
+        req.session.destroy();
+        res.clearCookie('user');
+        res.redirect('/');
+    },
     register: function (req, res) {
         res.render('auth/register');
     },
     registerProcess: function (req, res) {
-        let user = {
-            name: req.body.name,
-            username: req.body.email,
-            password: bcrypt.hashSync(req.body.password, 10),
-        };
+        // let user = {
+        //     name: req.body.name,
+        //     username: req.body.email,
+        //     password: bcrypt.hashSync(req.body.password, 10),
+        // };
         
-        userList.push(user);
+        // userList.push(user);
 
-        fs.writeFileSync(userListPath, JSON.stringify(userList, null, 2));
+        // fs.writeFileSync(userListPath, JSON.stringify(userList, null, 2));
+        try {
+            let newUser = {
+                name: req.body.name,
+                username: req.body.email,
+                password: req.body.password,
+            }
 
-        res.redirect('/login');
+            console.log(newUser);
+            const user = UserModel.create(newUser);
+            console.log(user);
+
+            res.redirect('/login');
+        } catch (error) {
+            res.render('auth/register', {
+                error: 'Error creating user'
+            });
+        }
     },
     profile: function (req, res) {
         let user = req.session.user;

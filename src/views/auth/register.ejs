@@ -43,6 +43,11 @@
                                     <label class="font-medium text-gray-900">Password</label>
                                     <input name="password" type="password" class="block w-full px-4 py-4 mt-2 text-xl placeholder-gray-400 bg-gray-200 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-600 focus:ring-opacity-50" placeholder="Password">
                                 </div>
+                                <% if (error) { %>
+                                    <div class="text-red-600 text-sm mt-2">
+                                        <%= error %>
+                                    </div>
+                                <% } %>
                                 <div class="relative">
                                     <button class="inline-block w-full px-5 py-4 text-lg font-medium text-center text-white transition duration-200 bg-blue-600 rounded-lg hover:bg-blue-700 ease">Create Account</button>
                                     <a href="#_" class="inline-block w-full px-5 py-4 mt-3 text-lg font-bold text-center text-gray-900 transition duration-200 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 ease">Sign up with Google</a>
