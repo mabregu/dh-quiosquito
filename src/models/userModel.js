@@ -28,6 +28,15 @@ const User = {
         const users = userList.filter(user => user[field] == value);
         return users;
     },
+    validateUser: function (user) {
+        const currentUser = this.findByField('username', user.username);
+        if (currentUser) {
+            if (bcrypt.compareSync(user.password, currentUser.password)) {
+                return currentUser;
+            }
+        }
+        throw new Error('Invalid username or password');
+    },
     create: function (user) {
         try {
             let userList = this.findAll();
@@ -73,15 +82,5 @@ const User = {
         }
     }
 }
-
-//console.log(User.findAll());
-//console.log(User.getAll());
-// console.log(User.create({
-//     name: 'Maria',
-//     username: 'maria@gmail.com',
-//     password: '123456'
-// }));
-//console.log(User.delete(2));
-//console.log(User.userListPath);
 
 module.exports = User;

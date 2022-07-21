@@ -6,9 +6,6 @@ const bcrypt = require('bcrypt');
 const productListPath = path.resolve(__dirname, '../data/products.json');
 const productList = JSON.parse(fs.readFileSync(productListPath, 'utf8'));
 
-const userListPath = path.resolve(__dirname, '../data/users.json');
-const userList = JSON.parse(fs.readFileSync(userListPath, 'utf8'));
-
 const UserModel = require('../models/userModel');
 
 const mainController = {
@@ -36,21 +33,25 @@ const mainController = {
         res.render('auth/login');
     },
     loginProcess: function (req, res) {
-        let currentUser = {
-            username: req.body.email,
-            password: req.body.password,
-            remember: req.body.remember
-        };
+        try {
+            let currentUser = {
+                username: req.body.email,
+                password: req.body.password,
+                remember: req.body.remember
+            };
 
-        let userFound = userList.find(user => user.username === currentUser.username);
+            let validate = UserModel.validateUser(currentUser);
 
-        if (userFound && bcrypt.compareSync(currentUser.password, userFound.password)) {
-            req.session.user = userFound;
-            if (currentUser.remember) {
-                res.cookie('user', userFound, { maxAge: 1000 * 60 * 60 * 24 * 7 });
+            if (validate) {
+                req.session.user = validate;
+                if (currentUser.remember) {
+                    res.cookie('user', JSON.stringify(validate), { maxAge: 1000 * 60 * 60 * 24 * 7 });
+                }
+                res.redirect('/');
+            } else {
+                res.render('auth/login', { error: 'Invalid username or password' });
             }
-            res.redirect('/');
-        } else {
+        } catch (error) {
             res.render('auth/login', {
                 error: 'Invalid username or password'
             });
@@ -65,15 +66,6 @@ const mainController = {
         res.render('auth/register');
     },
     registerProcess: function (req, res) {
-        // let user = {
-        //     name: req.body.name,
-        //     username: req.body.email,
-        //     password: bcrypt.hashSync(req.body.password, 10),
-        // };
-        
-        // userList.push(user);
-
-        // fs.writeFileSync(userListPath, JSON.stringify(userList, null, 2));
         try {
             let newUser = {
                 name: req.body.name,
@@ -81,11 +73,11 @@ const mainController = {
                 password: req.body.password,
             }
 
-            console.log(newUser);
-            const user = UserModel.create(newUser);
-            console.log(user);
+            UserModel.create(newUser);
 
-            res.redirect('/login');
+            res.redirect('/login', {
+                success: 'User created successfully'
+            });
         } catch (error) {
             res.render('auth/register', {
                 error: 'Error creating user'
