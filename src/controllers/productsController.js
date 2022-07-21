@@ -16,8 +16,11 @@ const productsController = {
         });
     },
     create: (req, res) => {
+        let user = req.session.user;
+
         res.render('products/create', {
-            currencies: currencyList
+            currencies: currencyList,
+            user
         });
     },
     store: (req, res) => {
@@ -56,12 +59,14 @@ const productsController = {
         res.redirect('/');
     },
     edit: (req, res) => {
+        let user = req.session.user;
         let productSlug = req.params.slug;
         let product = productList.find(product => product.slug === productSlug);
         
         res.render('products/edit', {
             product,
-            currencies: currencyList
+            currencies: currencyList,
+            user
         });
     },
     update: (req, res) => {

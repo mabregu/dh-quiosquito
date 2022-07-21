@@ -13,4 +13,6 @@ router.post('/login', mainController.loginProcess);
 router.get('/register', mainController.register);
 router.post('/register', mainController.registerProcess);
 
+router.get('/profile', mainController.profile);
+
 module.exports = router;

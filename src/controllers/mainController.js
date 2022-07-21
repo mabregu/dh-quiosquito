@@ -1,14 +1,21 @@
 const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
 const path = require('path');
+const bcrypt = require('bcrypt');
 
 const productListPath = path.resolve(__dirname, '../data/products.json');
 const productList = JSON.parse(fs.readFileSync(productListPath, 'utf8'));
 
+const userListPath = path.resolve(__dirname, '../data/users.json');
+const userList = JSON.parse(fs.readFileSync(userListPath, 'utf8'));
+
 const mainController = {
     home: function (req, res) {
+        let user = req.session.user;        
+
         res.render('index', {
-            products: productList
+            products: productList,
+            user: user
         });
     },
     details: function (req, res) {
@@ -24,29 +31,53 @@ const mainController = {
         res.render('contact');
     },
     login: function (req, res) {
-        res.render('login');
+        res.render('auth/login');
     },
     loginProcess: function (req, res) {
-        let user = {
-            username: req.body.username,
-            password: req.body.password
+        let currentUser = {
+            username: req.body.email,
+            password: req.body.password,
+            remember: req.body.remember
         };
-        if (user.username == 'admin' && user.password == 'admin') {
-            req.session.user = user;
-            res.redirect('/admin');
+
+        let userFound = userList.find(user => user.username === currentUser.username);
+
+        if (userFound && bcrypt.compareSync(currentUser.password, userFound.password)) {
+            req.session.user = userFound;
+            if (currentUser.remember) {
+                res.cookie('user', userFound, { maxAge: 1000 * 60 * 60 * 24 * 7 });
+            }
+            res.redirect('/');
         } else {
-            res.redirect('/login');
+            res.render('auth/login', {
+                error: 'Invalid username or password'
+            });
         }
     },
     register: function (req, res) {
-        res.render('register');
+        res.render('auth/register');
     },
     registerProcess: function (req, res) {
         let user = {
-            username: req.body.username,
-            password: req.body.password
+            name: req.body.name,
+            username: req.body.email,
+            password: bcrypt.hashSync(req.body.password, 10),
         };
+        
+        userList.push(user);
+
+        fs.writeFileSync(userListPath, JSON.stringify(userList, null, 2));
+
         res.redirect('/login');
+    },
+    profile: function (req, res) {
+        let user = req.session.user;
+
+        if (!user) {
+            res.redirect('/login');
+        }
+
+        res.render('auth/profile', { user: req.session.user });
     }
 }
 
