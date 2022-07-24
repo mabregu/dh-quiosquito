@@ -34,7 +34,7 @@
 
         <div class="order-2 md:order-3 flex items-center" id="nav-content">
             <!-- authenticate -->
-            <% if (user) { %>
+            <% if (locals.user && user) { %>
                 <div class="flex items-center">
                     <a class="no-underline hover:no-underline text-gray-800 text-sm px-4" href="/profile">
                         <%= user.name %>

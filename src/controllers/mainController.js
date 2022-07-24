@@ -1,25 +1,19 @@
-const { v4: uuidv4 } = require('uuid');
-const fs = require('fs');
-const path = require('path');
-const bcrypt = require('bcrypt');
-
-const productListPath = path.resolve(__dirname, '../data/products.json');
-const productList = JSON.parse(fs.readFileSync(productListPath, 'utf8'));
-
+const { validationResult } = require('express-validator');
+const ProductModel = require('../models/productModel');
 const UserModel = require('../models/userModel');
-
+const { isGuest, isLoggedIn } = require('../helpers/userHelpers');
 const mainController = {
     home: function (req, res) {
-        let user = req.session.user;        
-
         res.render('index', {
-            products: productList,
-            user: user
+            products: ProductModel.findAll(),
+            user: req.session.user || null,
+            isGuest: isGuest(req.session),
+            isLoggedIn: isLoggedIn(req.session),
         });
     },
     details: function (req, res) {
         const productSlug = req.params.slug;
-        const product = productList.find(product => product.slug === productSlug);
+        const product = ProductModel.findByField('slug', productSlug);
         
         res.render('details', { product });
     },
@@ -67,17 +61,31 @@ const mainController = {
     },
     registerProcess: function (req, res) {
         try {
+            const errors = validationResult(req);
+
+            if (!errors.isEmpty()) {
+                return res.render('auth/register', {
+                    errors: errors.mapped(),
+                    old: req.body,
+                });
+            }
+
             let newUser = {
                 name: req.body.name,
                 username: req.body.email,
                 password: req.body.password,
             }
 
-            UserModel.create(newUser);
+            let user = UserModel.create(newUser);
 
-            res.redirect('/login', {
-                success: 'User created successfully'
-            });
+            if (user.error) {
+                return res.render('auth/register', {
+                    errors: user.error,
+                    old: req.body,
+                });
+            }
+
+            res.redirect('/login', { success: 'Registration successful' });
         } catch (error) {
             res.render('auth/register', {
                 error: 'Error creating user'

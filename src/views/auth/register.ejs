@@ -33,21 +33,55 @@
                             <div class="relative w-full mt-10 space-y-8">
                                 <div class="relative">
                                     <label class="font-medium text-gray-900">Name</label>
-                                    <input name="name" type="text" class="block w-full px-4 py-4 mt-2 text-xl placeholder-gray-400 bg-gray-200 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-600 focus:ring-opacity-50" placeholder="Enter Your Name">
+                                    <input name="name" 
+                                        type="text"
+                                        value="<%= locals.old.name %>" 
+                                        class="block w-full px-4 py-4 mt-2 text-xl placeholder-gray-400 bg-gray-200 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-600 focus:ring-opacity-50" 
+                                        placeholder="Enter Your Name"
+                                    >
+                                    <% if (locals.errors && locals.errors.name) { %>
+                                        <span class="text-red-500 text-sm">
+                                            <%= locals.errors.name.msg %>
+                                        </span>
+                                    <% } %>
                                 </div>
                                 <div class="relative">
                                     <label class="font-medium text-gray-900">Email</label>
-                                    <input name="email" type="text" class="block w-full px-4 py-4 mt-2 text-xl placeholder-gray-400 bg-gray-200 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-600 focus:ring-opacity-50" placeholder="Enter Your Email Address">
+                                    <input name="email" 
+                                        type="text"
+                                        value="<%= locals.old.email %>" 
+                                        class="block w-full px-4 py-4 mt-2 text-xl placeholder-gray-400 bg-gray-200 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-600 focus:ring-opacity-50" 
+                                        placeholder="Enter Your Email Address"
+                                    >
+                                    <% if (locals.errors && locals.errors.email) { %>
+                                        <span class="text-red-500 text-sm">
+                                            <%= errors.email.msg %>
+                                            <%= locals.errors %>
+                                        </span>
+                                    <% } %>
                                 </div>
                                 <div class="relative">
                                     <label class="font-medium text-gray-900">Password</label>
-                                    <input name="password" type="password" class="block w-full px-4 py-4 mt-2 text-xl placeholder-gray-400 bg-gray-200 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-600 focus:ring-opacity-50" placeholder="Password">
+                                    <input name="password" 
+                                        type="password" 
+                                        class="block w-full px-4 py-4 mt-2 text-xl placeholder-gray-400 bg-gray-200 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-600 focus:ring-opacity-50" 
+                                        placeholder="Password"
+                                    >
+                                    <% if (locals.errors && errors.password) { %>
+                                        <span class="text-red-500 text-sm">
+                                            <%= errors.password.msg %>
+                                        </span>
+                                    <% } %>
                                 </div>
-                                <% if (error) { %>
-                                    <div class="text-red-600 text-sm mt-2">
-                                        <%= error %>
+                                
+                                <% if (locals.errors) { %>
+                                    <div class="text-red-500 text-sm">
+                                        <span class="text-red-500 text-sm">
+                                            <%= locals.errors %>
+                                        </span>
                                     </div>
                                 <% } %>
+
                                 <div class="relative">
                                     <button class="inline-block w-full px-5 py-4 text-lg font-medium text-center text-white transition duration-200 bg-blue-600 rounded-lg hover:bg-blue-700 ease">Create Account</button>
                                     <a href="#_" class="inline-block w-full px-5 py-4 mt-3 text-lg font-bold text-center text-gray-900 transition duration-200 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 ease">Sign up with Google</a>

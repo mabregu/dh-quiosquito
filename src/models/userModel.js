@@ -40,11 +40,25 @@ const User = {
     create: function (user) {
         try {
             let userList = this.findAll();
-            user.id = uuid.v4();
-            user.password = bcrypt.hashSync(user.password, 10);
-            userList.push(user);
+            let userExists = this.findByField('username', user.username);
+            if (userExists) {
+                throw new Error('User already exists');
+            }
+            console.log(userExists);
+
+            let newUser = {
+                id: uuid.v4(),
+                name: user.name,
+                username: user.username,
+                password: bcrypt.hashSync(user.password, 10),
+                createdAt: new Date(),
+                updatedAt: new Date()
+            };
+
+            userList.push(newUser);
+
             fs.writeFileSync(this.userListPath, JSON.stringify(userList, null, 2));
-            return user;
+            return newUser;
         } catch (error) {
             return { error, message: 'Error creating user' };
         }
