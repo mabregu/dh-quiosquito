@@ -95,11 +95,162 @@
     "currency": "ARS$",
     "price": "9800",
     "images": [
-      "1657907512350.jpg",
-      "1657907512353.jpg",
-      "1657907512355.jpg"
+      {
+        "id": "40e0css138-d8a5-48fa-8230-952e5d0e1491",
+        "url": "1657907512350.jpg"
+      },
+      {
+        "id": "060fb4aff0-faac-4754-ba74-91d551ac3b0c",
+        "url": "1657907512353.jpg"
+      },
+      {
+        "id": "060fb4awqr0-faac-4754-ba74-91d551ac3b0c",
+        "url": "1657907512355.jpg"
+      }
     ],
     "category": "food",
     "favorite": false
+  },
+  {
+    "id": "23f26a3d-6504-4795-95c9-0c3f68746cda",
+    "name": "Taza dbz",
+    "slug": "taza-dbz",
+    "description": "Taza color naranja de dragon ball",
+    "currency": "ARS$",
+    "price": "459",
+    "images": [
+      {
+        "id": "40e0c138-d8a5-48fa-8230-952e5d0e1491",
+        "url": "1658698225200.jpg"
+      },
+      {
+        "id": "060fb4a0-faac-4754-ba74-91d551ac3b0c",
+        "url": "1658698225200.jpg"
+      }
+    ]
+  },
+  {
+    "id": "c28ceb36-acfe-45aa-b3eb-2c9e62cd8f55",
+    "name": "Monopoly",
+    "slug": "monopoly",
+    "description": "Juego de mesa monopoly",
+    "currency": "$",
+    "price": "250",
+    "images": [
+      {
+        "id": "b386d413-0aab-41ae-9c88-387efaba0799",
+        "url": "1658699259859.jpg"
+      },
+      {
+        "id": "95f32b0f-a62c-43c1-84e5-532a53ad65d7",
+        "url": "1658699259859.jpg"
+      }
+    ]
+  },
+  {
+    "id": "655e97cb-1241-4a1c-b6c4-4fac4466a90a",
+    "name": "juego de mesa",
+    "slug": "juego-de-mesa",
+    "description": "asdadasdasdsdaad",
+    "currency": "$",
+    "price": "114",
+    "images": [
+      {
+        "id": "f66af6b7-94f3-4726-85ec-0f16ee80b2d0",
+        "url": "1658699439793.jpg"
+      },
+      {
+        "id": "c8aebcb1-ba8c-44f7-aa60-4f5676c00f1a",
+        "url": "1658699439794.jpg"
+      }
+    ]
+  },
+  {
+    "id": "5499b1a0-5888-4e5c-b645-8fb7740d4b76",
+    "name": "Juego de mesa peliculas chaplin",
+    "slug": "juego-de-mesa-peliculas-chaplin",
+    "description": "Juego de mesa peliculas chaplin hasta 8 jugadores",
+    "currency": "$",
+    "price": "850",
+    "images": [
+      {
+        "id": "20f343bb-7f61-45df-a34f-60bf3015c951",
+        "url": "1658699802108.jpg"
+      },
+      {
+        "id": "3f171306-9ef0-40e6-96fd-2087e160a869",
+        "url": "1658699802111.jpg"
+      },
+      {
+        "id": "96379dae-22fc-40a5-beb3-6a35af1c04c9",
+        "url": "1658699802112.jpg"
+      }
+    ]
+  },
+  {
+    "id": "1d90389c-b803-49c0-a020-cfd9f03e0a02",
+    "name": "Mate 22ad",
+    "slug": "mate-22ad",
+    "description": "adsdadsdasdsadsd",
+    "currency": "$",
+    "price": "22",
+    "images": [
+      {
+        "id": "8679d89c-8ac8-4023-a2a7-e76f9abd9545",
+        "url": "1658699872588.jpg"
+      },
+      {
+        "id": "937e5c71-af23-438e-acc3-71d25df357b9",
+        "url": "1658699872589.jpg"
+      }
+    ]
+  },
+  {
+    "id": "bdca2cd0-f8c1-499b-9525-9c08faa89ac8",
+    "name": "adssdasd",
+    "slug": "adssdasd",
+    "description": "dadsddasdasdadsd",
+    "currency": "$",
+    "price": "55",
+    "images": [
+      {
+        "id": "ec9cb2e9-ba25-4a49-b441-94cf6d98c7e6",
+        "url": "1658700321910.jpg"
+      },
+      {
+        "id": "8910a50a-34e2-45ec-a4c3-55df2a257528",
+        "url": "1658700321910.jpg"
+      }
+    ]
+  },
+  {
+    "id": "46211a1f-ac71-4210-8a31-4c885e631b8d",
+    "name": "Cosas de prueba",
+    "slug": "cosas-de-prueba",
+    "description": "sdadsadasdsadasdasdasds ",
+    "currency": "R$",
+    "price": "456",
+    "images": [
+      {
+        "id": "4b711ef4-ab8f-4ca3-b30a-96f326c402d3",
+        "url": "1658700730927.jpg"
+      },
+      {
+        "id": "b464f3e1-552e-4321-ad91-0d0e06b3741f",
+        "url": "1658700730930.jpg"
+      },
+      {
+        "id": "00b19b82-88cc-4091-a7d6-b8bcc65781e6",
+        "url": "1658700730931.jpg"
+      },
+      {
+        "id": "54d31d85-6ad4-43ee-a25e-ccfff5770b8b",
+        "url": "1658700730932.jpg"
+      },
+      {
+        "id": "4c14dcb5-1cab-4671-a55b-da735f3e38e6",
+        "url": "1658700730933.jpg"
+      }
+    ]
   }
 ]

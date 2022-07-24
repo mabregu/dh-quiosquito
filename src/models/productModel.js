@@ -27,14 +27,24 @@ const ProductModel = {
         const products = productList.filter(product => product[field] == value);
         return products;
     },
-    create: function (product) {
+    create: function (product, images) {
         try {
             let productList = this.findAll();
-            let images = product.files;
+            let productExists = this.findByField('name', product.name);
+            if (productExists) {
+                throw new Error('Product already exists');
+            }
+            //console.log("create product", images);
             let imagesArray = [];
-            images.forEach(image => {
-                imagesArray.push(image.filename);
-            });
+            if (images) {
+                imagesArray = images.map(image => {
+                    return {
+                        id: uuid.v4(),
+                        url: image.filename
+                    }
+                });
+            }
+
             let slug = product.name.toLowerCase().replace(/ /g, '-');
             let newProduct = {
                 id: uuid.v4(),

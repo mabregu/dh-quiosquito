@@ -6,6 +6,7 @@
 </head>
 
 <body class="bg-white text-gray-600 work-sans leading-normal text-base tracking-normal">
+    <%- include('../partials/nav') %>
 
     <!-- Register -->
     <section class="w-full bg-white">
@@ -35,7 +36,7 @@
                                     <label class="font-medium text-gray-900">Name</label>
                                     <input name="name" 
                                         type="text"
-                                        value="<%= locals.old.name %>" 
+                                        value="<%= locals.old ? locals.old.name : '' %>" 
                                         class="block w-full px-4 py-4 mt-2 text-xl placeholder-gray-400 bg-gray-200 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-600 focus:ring-opacity-50" 
                                         placeholder="Enter Your Name"
                                     >
@@ -49,7 +50,7 @@
                                     <label class="font-medium text-gray-900">Email</label>
                                     <input name="email" 
                                         type="text"
-                                        value="<%= locals.old.email %>" 
+                                        value="<%= locals.old ? locals.old.email : '' %>" 
                                         class="block w-full px-4 py-4 mt-2 text-xl placeholder-gray-400 bg-gray-200 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-600 focus:ring-opacity-50" 
                                         placeholder="Enter Your Email Address"
                                     >

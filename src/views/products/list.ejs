@@ -10,7 +10,7 @@
                 <a href="/products/<%= product.slug %>">
                     <% if (Array.isArray(product.images)) { %>
                         <img 
-                            src="/img/uploads/<%= product.images[0] %> "
+                            src="/img/uploads/<%= product.images[0].url %> "
                             class="hover:grow hover:shadow-lg object-cover h-48 w-96 rounded" 
                         >
                     <% } else { %>

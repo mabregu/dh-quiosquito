@@ -25,9 +25,10 @@ const productsController = {
             });
         }
         
-        let product = ProductModel.create(req.body);
+        let product = ProductModel.create(req.body, req.files);
         
         if (product.error) {
+            console.log(product.error);
             return res.render('products/create', {
                 errors: product.error,
                 old: req.body,
@@ -35,10 +36,19 @@ const productsController = {
             });
         }
 
-        res.redirect('/products');
+        res.redirect('/');
     },
     edit: (req, res) => {
-        let product = ProductModel.find(req.params.id);
+        let productSlug = req.params.slug;
+        
+        let product = ProductModel.findByField('slug', productSlug);
+
+        if (!product) {
+            return res.redirect('/products', {
+                error: 'Product not found'
+            });
+        }
+
         res.render('products/edit', {
             product,
             currencies: currencyList,

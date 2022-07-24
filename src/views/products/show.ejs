@@ -16,7 +16,7 @@
         <% if (Array.isArray(product.images)) { %>
           <% product.images.forEach(image => { %>
             <div class="hidden aspect-w-3 aspect-h-4 rounded-lg overflow-hidden lg:block">
-              <img src="/img/uploads/<%= image %>" 
+              <img src="/img/uploads/<%= image.url %>" 
                 alt="Two each of gray, white, and black shirts laying flat."
                 class="w-full h-full object-center object-cover"
               >
