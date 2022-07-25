@@ -79,16 +79,21 @@ const productsController = {
         res.redirect('/products');
     },
     delete: (req, res) => {
-        let productId = req.params.id;
-        let product = ProductModel.find(productId);
+        console.log("delete product");
+        let productSlug = req.params.slug;
+        let product = ProductModel.findByField('slug', productSlug);
+
         if (product) {
-            ProductModel.delete(productId);
-            res.redirect('/products', {
-                message: 'Product deleted successfully'
+            ProductModel.delete(product.id);
+            return res.json({
+                success: true,
+                message: 'Product deleted'
             });
         }
-        res.redirect('/products', {
-            message: 'Product not found'
+
+        return res.json({
+            success: false,
+            error: 'Product not found'
         });
     },
     show: (req, res) => {

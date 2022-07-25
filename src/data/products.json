@@ -6,7 +6,12 @@
     "price": "1,000",
     "description": "Samsung Memory",
     "currency": "£",
-    "images": "photo-1657214059153-4652d058965f.avif",
+    "images": [
+      {
+        "id": "c6859bad-cbd4-40f2-8ca1-c5e2f780ced5c94",
+        "url": "photo-1657214059153-4652d058965f.avif"
+      }
+    ],
     "category": "Electronics",
     "favorite": false
   },
@@ -17,7 +22,12 @@
     "price": "500",
     "description": "Reloj pulsera blanco",
     "currency": "USD",
-    "images": "photo-1523275335684-37898b6baf30.avif",
+    "images": [
+      {
+        "id": "c6859bad-cbd440f2-8ca12f780ced5c94",
+        "url": "photo-1523275335684-37898b6baf30.avif"
+      }
+    ],
     "category": "Electronics",
     "favorite": false
   },
@@ -28,7 +38,12 @@
     "price": "300",
     "description": "Auriculares inalambricos de alta calidad",
     "currency": "USD",
-    "images": "photo-1505740420928-5e560c06d30e.avif",
+    "images": [
+      {
+        "id": "c6859bad-cbd440f2-dasd782-8ca12f780ced",
+        "url": "photo-1505740420928-5e560c06d30e.avif"
+      }
+    ],
     "category": "Electronics",
     "favorite": true
   },
@@ -39,7 +54,12 @@
     "price": "200",
     "description": "Gafas de sol de alta calidad",
     "currency": "USD",
-    "images": "photo-1572635196237-14b3f281503f.avif",
+    "images": [
+      {
+        "id": "c685d-wdcbdf2-dasd782-8ca12f78ed",
+        "url": "photo-1572635196237-14b3f281503f.avif"
+      }
+    ],
     "category": "Moda",
     "favorite": false
   },
@@ -50,7 +70,12 @@
     "price": "13380",
     "description": "Zapatillas Nike Rojas",
     "currency": "ARS$",
-    "images": "photo-1542291026-7eec264c27ff.avif",
+    "images": [
+      {
+        "id": "c685d-wdcb2w2-fffdasd782-8ca12f78ed",
+        "url": "photo-1542291026-7eec264c27ff.avif"
+      }
+    ],
     "category": "Sports",
     "favorite": false
   },
@@ -61,7 +86,12 @@
     "price": "220",
     "description": "Alta voz portatil de alta calidad",
     "currency": "USD",
-    "images": "photo-1543512214-318c7553f230.avif",
+    "images": [
+      {
+        "id": "c685d-wdcb2w-ad448ws-fffdasd782",
+        "url": "photo-1543512214-318c7553f230.avif"
+      }
+    ],
     "category": "Electronics",
     "favorite": false
   },
@@ -72,7 +102,12 @@
     "price": "1200",
     "description": "Camara Nikon de alta calidad",
     "currency": "USD",
-    "images": "photo-1564466809058-bf4114d55352.avif",
+    "images": [
+      {
+        "id": "c685d2-fswd2w-d4sgvs-fdasd782sqs",
+        "url": "photo-1564466809058-bf4114d55352.avif"
+      }
+    ],
     "category": "Electronics",
     "favorite": false
   },
@@ -83,7 +118,12 @@
     "price": "800",
     "description": "Joystick inalambrico xbox blanco",
     "currency": "USD",
-    "images": "photo-1600080972464-8e5f35f63d08.avif",
+    "images": [
+      {
+        "id": "c6dss2f-fswwgvs-fdasd334",
+        "url": "photo-1600080972464-8e5f35f63d08.avif"
+      }
+    ],
     "category": "Gaming",
     "favorite": true
   },
@@ -188,68 +228,16 @@
     ]
   },
   {
-    "id": "1d90389c-b803-49c0-a020-cfd9f03e0a02",
-    "name": "Mate 22ad",
-    "slug": "mate-22ad",
-    "description": "adsdadsdasdsadsd",
-    "currency": "$",
-    "price": "22",
+    "id": "d6e2b8ce-07e4-4109-829a-50829ab50a49",
+    "name": "Vanish limpiador",
+    "slug": "vanish-limpiador",
+    "description": "Producto de limpieza vanish",
+    "currency": "ARS$",
+    "price": "560",
     "images": [
       {
-        "id": "8679d89c-8ac8-4023-a2a7-e76f9abd9545",
-        "url": "1658699872588.jpg"
-      },
-      {
-        "id": "937e5c71-af23-438e-acc3-71d25df357b9",
-        "url": "1658699872589.jpg"
-      }
-    ]
-  },
-  {
-    "id": "bdca2cd0-f8c1-499b-9525-9c08faa89ac8",
-    "name": "adssdasd",
-    "slug": "adssdasd",
-    "description": "dadsddasdasdadsd",
-    "currency": "$",
-    "price": "55",
-    "images": [
-      {
-        "id": "ec9cb2e9-ba25-4a49-b441-94cf6d98c7e6",
-        "url": "1658700321910.jpg"
-      },
-      {
-        "id": "8910a50a-34e2-45ec-a4c3-55df2a257528",
-        "url": "1658700321910.jpg"
-      }
-    ]
-  },
-  {
-    "id": "46211a1f-ac71-4210-8a31-4c885e631b8d",
-    "name": "Cosas de prueba",
-    "slug": "cosas-de-prueba",
-    "description": "sdadsadasdsadasdasdasds ",
-    "currency": "R$",
-    "price": "456",
-    "images": [
-      {
-        "id": "4b711ef4-ab8f-4ca3-b30a-96f326c402d3",
-        "url": "1658700730927.jpg"
-      },
-      {
-        "id": "b464f3e1-552e-4321-ad91-0d0e06b3741f",
-        "url": "1658700730930.jpg"
-      },
-      {
-        "id": "00b19b82-88cc-4091-a7d6-b8bcc65781e6",
-        "url": "1658700730931.jpg"
-      },
-      {
-        "id": "54d31d85-6ad4-43ee-a25e-ccfff5770b8b",
-        "url": "1658700730932.jpg"
-      },
-      {
-        "id": "4c14dcb5-1cab-4671-a55b-da735f3e38e6",
-        "url": "1658700730933.jpg"
+        "id": "c6859bad-cbd4-40f2-8ca1-c5780ced5c94",
+        "url": "1658755172119.jpg"
       }
     ]
   }

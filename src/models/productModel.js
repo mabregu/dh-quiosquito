@@ -80,16 +80,27 @@ const ProductModel = {
     delete: function (id) {
         try {
             let currentProduct = this.find(id);
+
             if (currentProduct) {
                 let productList = this.getAll();
                 let productIndex = productList.findIndex(product => product.id == id);
                 productList.splice(productIndex, 1);
                 fs.writeFileSync(this.productListPath, JSON.stringify(productList, null, 2));
+                
+                return { success: true };
             } else {
-                return { error: 'Product not found' };
+                return { 
+                    error: 'Product not found',
+                    message: 'Error deleting product',
+                    success: false
+                };
             }
         } catch (error) {
-            return { error, message: 'Error deleting product' };
+            return { 
+                error, 
+                message: 'Error deleting product',
+                success: false
+            };
         }
     }
 }

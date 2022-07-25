@@ -1,7 +1,23 @@
 function deleteProduct(element) {
     let slug = element.getAttribute('data-slug');
     let product = document.getElementById("product-" + slug);
-    product.remove();
+    let url = '/products/delete/' + slug;
+
+    fetch(url, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            product.remove();
+        } else {
+            console.log(data);
+        }
+    })
+    .catch(error => console.log(error));
 }
 
 function favorite(element) {
@@ -19,4 +35,26 @@ function favorite(element) {
         iconHeart.classList.remove('text-red-500');
         iconHeart.classList.add('text-gray-500');
     }
+}
+
+function areYouSureDeleteProduct(product) {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      })
+    .then((result) => {
+        if (result.isConfirmed) {
+            deleteProduct(product);
+            Swal.fire(
+            'Deleted!',
+            'Your file has been deleted.',
+            'success'
+            )
+        }
+    })
 }

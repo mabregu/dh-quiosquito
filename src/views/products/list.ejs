@@ -13,11 +13,6 @@
                             src="/img/uploads/<%= product.images[0].url %> "
                             class="hover:grow hover:shadow-lg object-cover h-48 w-96 rounded" 
                         >
-                    <% } else { %>
-                        <img 
-                            src="/img/uploads/<%= product.images %> "
-                            class="hover:grow hover:shadow-lg object-cover h-48 w-96 rounded" 
-                        >
                     <% } %>
                     <div class="pt-3 flex items-center justify-between">
                         <p class=""><%= product.name %></p>
@@ -25,7 +20,6 @@
                             <!-- product actions -->
                             <%- include('./actions', { product: product }) %>
                         <% } %>
-
                     </div>
                     <p class="pt-1 text-gray-900">
                         <%= product.currency %> 

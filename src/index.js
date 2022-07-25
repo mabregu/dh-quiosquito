@@ -4,6 +4,7 @@ const path = require('path');
 const morgan = require('morgan');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
+const methodOverride = require('method-override');
 
 const PORT = process.env.PORT || 3000;
 const mainRoutes = require('./routes/mainRoutes');
@@ -20,6 +21,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(morgan('dev'));
+app.use(methodOverride('_method'));
 app.use(cookieParser());
 app.use(session({
     secret: 'secret',
