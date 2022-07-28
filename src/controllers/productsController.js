@@ -1,3 +1,4 @@
+const fs = require('fs');
 const { validationResult } = require('express-validator');
 const CurrencyModel = require('../models/currenciesModel');
 let currencyList = CurrencyModel.findAll();
@@ -18,6 +19,17 @@ const productsController = {
         const errors = validationResult(req);
 
         if (!errors.isEmpty()) {
+            // elinminar los archivos subidos
+            if (req.files) {
+                req.files.forEach(file => {
+                    fs.unlink(file.path, err => {
+                        if (err) {
+                            console.log(err);
+                        }
+                    });
+                });
+            }
+
             return res.render('products/create', {
                 errors: errors.mapped(),
                 old: req.body,
@@ -57,34 +69,31 @@ const productsController = {
     },
     update: (req, res) => {
         const errors = validationResult(req);
+        let product = ProductModel.find(req.params.id);
 
         if (!errors.isEmpty()) {
             return res.render('products/edit', {
                 errors: errors.mapped(),
                 old: req.body,
-                currencies: currencyList
+                currencies: currencyList,
+                product,
             });
         }
-
-        let product = ProductModel.update(req.params.id, req.body);
-
-        if (product.error) {
-            return res.render('products/edit', {
-                errors: product.error,
-                old: req.body,
-                currencies: currencyList
-            });
+        console.log("update product", product, req.body);
+        if (product) {
+            product = ProductModel.update(req.params.id, req.body);
+            console.log("update product", product);
         }
 
-        res.redirect('/products');
+        res.redirect('/');
     },
     delete: (req, res) => {
-        console.log("delete product");
         let productSlug = req.params.slug;
         let product = ProductModel.findByField('slug', productSlug);
 
         if (product) {
             ProductModel.delete(product.id);
+
             return res.json({
                 success: true,
                 message: 'Product deleted'

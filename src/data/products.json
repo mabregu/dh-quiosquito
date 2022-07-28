@@ -152,60 +152,6 @@
     "favorite": false
   },
   {
-    "id": "23f26a3d-6504-4795-95c9-0c3f68746cda",
-    "name": "Taza dbz",
-    "slug": "taza-dbz",
-    "description": "Taza color naranja de dragon ball",
-    "currency": "ARS$",
-    "price": "459",
-    "images": [
-      {
-        "id": "40e0c138-d8a5-48fa-8230-952e5d0e1491",
-        "url": "1658698225200.jpg"
-      },
-      {
-        "id": "060fb4a0-faac-4754-ba74-91d551ac3b0c",
-        "url": "1658698225200.jpg"
-      }
-    ]
-  },
-  {
-    "id": "c28ceb36-acfe-45aa-b3eb-2c9e62cd8f55",
-    "name": "Monopoly",
-    "slug": "monopoly",
-    "description": "Juego de mesa monopoly",
-    "currency": "$",
-    "price": "250",
-    "images": [
-      {
-        "id": "b386d413-0aab-41ae-9c88-387efaba0799",
-        "url": "1658699259859.jpg"
-      },
-      {
-        "id": "95f32b0f-a62c-43c1-84e5-532a53ad65d7",
-        "url": "1658699259859.jpg"
-      }
-    ]
-  },
-  {
-    "id": "655e97cb-1241-4a1c-b6c4-4fac4466a90a",
-    "name": "juego de mesa",
-    "slug": "juego-de-mesa",
-    "description": "asdadasdasdsdaad",
-    "currency": "$",
-    "price": "114",
-    "images": [
-      {
-        "id": "f66af6b7-94f3-4726-85ec-0f16ee80b2d0",
-        "url": "1658699439793.jpg"
-      },
-      {
-        "id": "c8aebcb1-ba8c-44f7-aa60-4f5676c00f1a",
-        "url": "1658699439794.jpg"
-      }
-    ]
-  },
-  {
     "id": "5499b1a0-5888-4e5c-b645-8fb7740d4b76",
     "name": "Juego de mesa peliculas chaplin",
     "slug": "juego-de-mesa-peliculas-chaplin",
@@ -228,16 +174,20 @@
     ]
   },
   {
-    "id": "d6e2b8ce-07e4-4109-829a-50829ab50a49",
-    "name": "Vanish limpiador",
-    "slug": "vanish-limpiador",
-    "description": "Producto de limpieza vanish",
+    "id": "c3dd4f90-219c-46a5-99b7-083a226d23bb",
+    "name": "Producto Vanish",
+    "slug": "producto-vanish",
+    "description": "Producti de limpieza vanish pa limpiar",
     "currency": "ARS$",
-    "price": "560",
+    "price": "1231",
     "images": [
       {
-        "id": "c6859bad-cbd4-40f2-8ca1-c5780ced5c94",
-        "url": "1658755172119.jpg"
+        "id": "e8365543-3f17-4912-a73a-e88f6f5306e3",
+        "url": "1658758645773.jpg"
+      },
+      {
+        "id": "a03e7830-8631-459d-8756-6452dc0232ae",
+        "url": "1658758645774.jpg"
       }
     ]
   }

@@ -65,6 +65,7 @@ const ProductModel = {
     update: function (id, data) {
         try {
             let currentProduct = this.find(id);
+            console.log("update product", currentProduct, data);
             if (currentProduct) {
                 let productList = this.getAll();
                 let productIndex = productList.findIndex(product => product.id == id);
@@ -87,6 +88,14 @@ const ProductModel = {
                 productList.splice(productIndex, 1);
                 fs.writeFileSync(this.productListPath, JSON.stringify(productList, null, 2));
                 
+                if (currentProduct.images) {
+                    console.log("delete images", currentProduct.images);
+                    currentProduct.images.forEach(image => {
+                        let imagePath = path.resolve(__dirname, '../public/img/uploads/' + image.url);
+                        fs.unlinkSync(imagePath);
+                    });
+                }
+
                 return { success: true };
             } else {
                 return { 

@@ -9,6 +9,7 @@ const auth = require('../middlewares/isAuth');
 router.get('/', productsController.index);
 
 router.get('/create', auth, productsController.create);
+
 router.post('/create', auth, upload.array('images', 5), validateProduct, productsController.store);
 
 router.get('/edit/:slug', auth, productsController.edit);

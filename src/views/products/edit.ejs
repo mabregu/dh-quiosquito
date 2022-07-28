@@ -11,13 +11,14 @@
 
     <div class="flex items-center justify-center py-12 px-4">
         <form class="w-3/4"
-            action="/products/edit/<%= product.slug %>"
+            action="/products/edit/<%= product.slug %>?_method=put"
             method="post" 
             enctype="multipart/form-data"
         >
             <div class="shadow sm:rounded-md sm:overflow-hidden">
                 <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
                     <h2>Create Product</h2>
+                    <input type="hidden" name="id" value="<%= product.id %>">
                     <div class="grid grid-cols-3 gap-6">
                         <div class="col-span-3 sm:col-span-2">
                             <label for="name" class="block text-sm font-medium text-gray-700">
