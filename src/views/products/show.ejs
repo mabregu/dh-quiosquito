@@ -16,7 +16,7 @@
         <% if (Array.isArray(product.images)) { %>
           <% product.images.forEach(image => { %>
             <div class="hidden aspect-w-3 aspect-h-4 rounded-lg overflow-hidden lg:block">
-              <img src="/img/uploads/<%= image.url %>" 
+              <img src="<%= image.path %>" 
                 alt="Two each of gray, white, and black shirts laying flat."
                 class="w-full h-full object-center object-cover"
               >
@@ -37,7 +37,7 @@
         <div class="mt-4 lg:mt-0 lg:row-span-3">
           <h2 class="sr-only">Product information</h2>
           <p class="text-3xl text-gray-900">
-            <span class="font-bold"><%= product.currency %></span>
+            <span class="font-bold"><%= product.currency.code %></span>
             <span class="font-bold"><%= product.price %></span>
           </p>
 
@@ -54,6 +54,9 @@
           <div>
             <h3 class="sr-only">Description</h3>
             <div class="space-y-6">
+              <p class="text-base text-gray-900">
+                <%= product.category.name %>
+              </p>
               <p class="text-base text-gray-900">
                 <%= product.description %>
               </p>

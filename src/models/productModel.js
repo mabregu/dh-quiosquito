@@ -1,11 +1,31 @@
 const fs = require('fs');
 const path = require('path');
 const uuid = require('uuid');
+const db  = require('../database/models');
 
 const ProductModel = {
     productListPath: path.resolve(__dirname, '../data/products.json'),
     getAll: function () {
-        const productList = JSON.parse(fs.readFileSync(this.productListPath, 'utf8'));
+        //const productList = JSON.parse(fs.readFileSync(this.productListPath, 'utf8'));
+        const productList = db.Products.findAll({
+            include: [
+                'category',
+                'currency',
+                {
+                    model: db.Image,
+                    as: 'images',
+                    attributes: ['id', 'name', 'type', 'size', 'path'],
+                    where: {
+                        deletedAt: null
+                    }
+                }
+            ],
+            where: {
+                deletedAt: null
+            },
+            limit: 16,
+        });
+
         return productList;
     },
     findAll: function () {
@@ -13,13 +33,62 @@ const ProductModel = {
         return productList;
     },
     find: function (id) {
-        const productList = this.getAll();
-        const product = productList.find(product => product.id == id);
+        // const productList = this.getAll();
+        // const product = productList.find(product => product.id == id);
+        const product = db.Products.findOne({
+            include: [
+                'category',
+                'currency',
+                {
+                    model: db.Image,
+                    as: 'images',
+                    attributes: ['id', 'name', 'type', 'size', 'path'],
+                    where: {
+                        deletedAt: null
+                    }
+                }
+            ],
+            where: {
+                id: id,
+                deletedAt: null
+            }
+        });
+
+        return product;
+    },
+    findBySlug: function (slug) {
+        const product = db.Products.findOne({
+            include: ['category','currency','images'],
+            where: {
+                slug: slug,
+                deletedAt: null
+            }
+        });
+
         return product;
     },
     findByField: function (field, value) {
-        const productList = this.getAll();
-        const product = productList.find(product => product[field] == value);
+        // const productList = this.getAll();
+        // const product = productList.find(product => product[field] == value);
+        const product = db.Products.findOne({
+            include: [
+                'category',
+                'currency',
+                {
+                    model: db.Image,
+                    as: 'images',
+                    attributes: ['id', 'name', 'type', 'size', 'path'],
+                    where: {
+                        deletedAt: null
+                    }
+                }
+            ],
+            where: {
+                [field]: value,
+                deletedAt: null
+            }
+        });
+
         return product;
     },
     findAllByField: function (field, value) {

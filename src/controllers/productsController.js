@@ -126,11 +126,23 @@ const productsController = {
     },
     show: (req, res) => {
         let productSlug = req.params.slug;
-        let product = ProductModel.findByField('slug', productSlug);
-        res.render('products/show', {
-            product,
-            user: req.session.user || null,
-        });
+        //let product = ProductModel.findByField('slug', productSlug);
+        const product = ProductModel.findBySlug(productSlug);
+
+        product
+            .then(product => {
+                if (!product) {
+                    return res.redirect('/');
+                }
+                res.render('products/show', {
+                    product,
+                    user: req.session.user || null,
+                });
+            })
+            .catch(err => {
+                console.log(err);
+            })
+        ;      
     }
 }
 

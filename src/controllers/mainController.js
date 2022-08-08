@@ -1,31 +1,11 @@
 const { validationResult } = require('express-validator');
-// const ProductModel = require('../models/productModel');
+const ProductModel = require('../models/productModel');
 const UserModel = require('../models/userModel');
-const db  = require('../database/models');
 const { isGuest, isLoggedIn } = require('../helpers/userHelpers');
 
 const mainController = {
     home: function (req, res) {
-        let productList = db.Products.findAll({
-            include: [
-                'category',
-                'currency',
-                {
-                    model: db.Image,
-                    as: 'images',
-                    attributes: ['id', 'name', 'type', 'size', 'path'],
-                    where: {
-                        deletedAt: null
-                    }
-                }
-            ],
-            where: {
-                deletedAt: null
-            },
-            limit: 16,
-        })
-
-        productList
+        ProductModel.findAll()
             .then(products => {
                 //console.log(products);
                 res.render('index', {
@@ -44,33 +24,6 @@ const mainController = {
                     message: {
                         type: 'danger',
                         text: 'Error al cargar los productos: ' + error
-                    }
-                });
-            })
-        ;
-    },
-    details: function (req, res) {
-        const productSlug = req.params.slug;
-        //const product = ProductModel.findByField('slug', productSlug);
-        const product = db.Product.findOne({
-            include: ['images', 'category', 'currency'],
-            where: {
-                slug: productSlug,
-                deletedAt: null
-            }
-        });
-
-        product
-            .then(product => {
-                if (product) res.render('details', { product });
-                else res.redirect('/');
-            })
-            .catch(error => {
-                res.render('details', {
-                    product: null,
-                    message: {
-                        type: 'danger',
-                        text: 'Error al cargar el producto: ' + error
                     }
                 });
             })
