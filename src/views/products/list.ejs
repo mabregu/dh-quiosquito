@@ -10,10 +10,11 @@
                 <a href="/products/<%= product.slug %>">
                     <% if (Array.isArray(product.images)) { %>
                         <img 
-                            src="/img/uploads/<%= product.images[0].url %> "
+                            src="<%= product.images[0].path %>"
                             class="hover:grow hover:shadow-lg object-cover h-48 w-96 rounded" 
                         >
                     <% } %>
+                    <p class=""><%= product.category.name %></p>
                     <div class="pt-3 flex items-center justify-between">
                         <p class=""><%= product.name %></p>
                         <% if(isLoggedIn) { %>
@@ -22,7 +23,7 @@
                         <% } %>
                     </div>
                     <p class="pt-1 text-gray-900">
-                        <%= product.currency %> 
+                        <%= product.currency.code %> 
                         <%= product.price %>
                     </p>
                 </a>

@@ -68,24 +68,43 @@ const productsController = {
         });
     },
     update: (req, res) => {
-        const errors = validationResult(req);
-        let product = ProductModel.find(req.params.id);
-
-        if (!errors.isEmpty()) {
-            return res.render('products/edit', {
-                errors: errors.mapped(),
-                old: req.body,
-                currencies: currencyList,
-                product,
+        let product = ProductModel.findByField('slug', req.params.slug);
+        console.log("old product", product.images);
+        console.log("new product", req.body.images);
+        let images = req.body.images;
+        if (images) {
+            images = images.map(image => {
+                return {
+                    id: uuid.v4(),
+                    url: image.filename
+                }
             });
         }
-        console.log("update product", product, req.body);
-        if (product) {
-            product = ProductModel.update(req.params.id, req.body);
-            console.log("update product", product);
-        }
+        // if (!product) return res.redirect('/');
+        
+        // const errors = validationResult(req);
 
-        res.redirect('/');
+        // if (!errors.isEmpty()) {
+        //     return res.render('products/edit', {
+        //         errors: errors.mapped(),
+        //         old: req.body,
+        //         currencies: currencyList,
+        //         product,
+        //     });
+        // }
+
+        // let productUpdated = ProductModel.update(product, req.body, req.files);
+
+        // if (productUpdated.error) {
+        //     return res.render('products/edit', {
+        //         errors: productUpdated.error,
+        //         old: req.body,
+        //         currencies: currencyList,
+        //         product,
+        //     });
+        // }
+
+        // res.redirect('/');
     },
     delete: (req, res) => {
         let productSlug = req.params.slug;

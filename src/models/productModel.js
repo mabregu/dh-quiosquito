@@ -62,18 +62,38 @@ const ProductModel = {
             return { error, message: 'Error creating product' };
         }
     },
-    update: function (id, data) {
+    update: function (oldProduct, data, files) {
         try {
-            let currentProduct = this.find(id);
-            console.log("update product", currentProduct, data);
-            if (currentProduct) {
-                let productList = this.getAll();
-                let productIndex = productList.findIndex(product => product.id == id);
-                productList[productIndex] = data;
-                fs.writeFileSync(this.productListPath, JSON.stringify(productList, null, 2));
-            } else {
-                return { error: 'Product not found' };
+            let productList = this.getAll();
+            let productIndex = productList.findIndex(product => product.id == oldProduct.id);
+
+            productList[productIndex] = {
+                id: oldProduct.id,
+                name: data.name || oldProduct.name,
+                slug: data.name.toLowerCase().replace(/ /g, '-'),
+                description: data.description || oldProduct.description,
+                currency: data.currency || oldProduct.currency,
+                price: data.price || oldProduct.price,
+                images: oldProduct.images,
+            };
+
+            let imagesArray = [];
+            if (files) {
+                imagesArray = files.map(image => {
+                    return {
+                        id: uuid.v4(),
+                        url: image.filename
+                    }
+                });
             }
+
+            if (imagesArray.length > 0) {
+                productList[productIndex].images = imagesArray;
+            }
+
+            fs.writeFileSync(this.productListPath, JSON.stringify(productList, null, 2));
+
+            return productList[productIndex];
         } catch (error) {
             return { error, message: 'Error updating product' };
         }

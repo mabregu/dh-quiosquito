@@ -11,7 +11,7 @@
 
     <div class="flex items-center justify-center py-12 px-4">
         <form class="w-3/4"
-            action="/products/edit/<%= product.slug %>?_method=put"
+            action="/products/edit/<%= product.slug %>?_method=PUT"
             method="post" 
             enctype="multipart/form-data"
         >
@@ -95,6 +95,22 @@
                         <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
                             <!-- Image gallery -->
                             <div class="mt-6 max-w-2xl mx-auto sm:px-6 lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-3 lg:gap-x-8">
+                                <div class="space-y-1 text-center">
+                                    <div class="flex text-sm text-gray-600">
+                                        <label for="file-cover-upload" class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
+                                        <span>Upload a file</span>
+                                        <input id="file-cover-upload" name="images" type="file" class="sr-only" multiple>
+                                        </label>
+                                        <p class="pl-1">or drag and drop</p>
+                                    </div>
+                                    <% if (locals.errors && errors.images) { %>
+                                        <span class="text-red-500 text-sm">
+                                            <%= errors.images.msg %>
+                                        </span>
+                                    <% } %>
+                                    <p class="text-xs text-gray-500">PNG, JPG up to 10MB</p>
+                                </div>
+
                                 <% if (Array.isArray(product.images)) { %>
                                     <% product.images.forEach(image => { %>
                                         <div class="hidden aspect-w-3 aspect-h-4 rounded-lg overflow-hidden lg:block border-2 border-gray-300 border-dashed">
@@ -112,15 +128,11 @@
                                                 alt="Two each of gray, white, and black shirts laying flat."
                                                 class="w-full h-full object-center object-cover"
                                             >
+
+                                            <input type="hidden" name="images[]" value="<%= image.url %>">
+                                            <input type="hidden" name="imagesId[]" value="<%= image.id %>">
                                         </div>
                                     <% }) %>
-                                <% } else { %>
-                                <div class="hidden aspect-w-3 aspect-h-4 rounded-lg overflow-hidden lg:block">
-                                    <img src="/img/uploads/<%= product.images %>" 
-                                    alt="Two each of gray, white, and black shirts laying flat."
-                                    class="w-full h-full object-center object-cover"
-                                    >
-                                </div>
                                 <% } %>
                             </div>
                         </div>
