@@ -1,128 +1,133 @@
 const fs = require('fs');
 const { validationResult } = require('express-validator');
 const CurrencyModel = require('../models/currenciesModel');
-let currencyList = CurrencyModel.findAll();
 const ProductModel = require('../models/productModel');
+const CategoryModel = require('../models/categoriesModel');
 const productsController = {
     index: (req, res) => {
         res.render('products/index', {
             products: ProductModel.findAll(),
         });
     },
-    create: (req, res) => {
+    create: async (req, res) => {
+        const currencies = await CurrencyModel.findAll();
+        const categories = await CategoryModel.findAll();
+
         res.render('products/create', {
-            currencies: currencyList,
+            currencies, categories,
             user: req.session.user || null,
         });
     },
-    store: (req, res) => {
-        const errors = validationResult(req);
-
-        if (!errors.isEmpty()) {
-            // elinminar los archivos subidos
-            if (req.files) {
-                req.files.forEach(file => {
-                    fs.unlink(file.path, err => {
-                        if (err) {
-                            console.log(err);
-                        }
+    store: async (req, res) => {
+        try {
+            const errors = validationResult(req);
+            const currencies = await CurrencyModel.findAll();
+            const categories = await CategoryModel.findAll();
+    
+            if (!errors.isEmpty()) {
+                // elinminar los archivos subidos
+                if (req.files) {
+                    req.files.forEach(file => {
+                        fs.unlink(file.path, err => {
+                            if (err) {
+                                console.log(err);
+                            }
+                        });
                     });
+                }
+    
+                return res.render('products/create', {
+                    errors: errors.mapped(),
+                    old: req.body,
+                    currencies, categories,
                 });
             }
-
+            
+            ProductModel.create(req.body, req.files);
+            
+            return res.redirect('/');
+        } catch (error) {
             return res.render('products/create', {
-                errors: errors.mapped(),
+                errors: {
+                    message: 'Error al crear el producto',
+                    detail: error,
+                },
                 old: req.body,
-                currencies: currencyList
+                currencies, categories,
             });
         }
-        
-        let product = ProductModel.create(req.body, req.files);
-        
-        if (product.error) {
-            console.log(product.error);
-            return res.render('products/create', {
-                errors: product.error,
-                old: req.body,
-                currencies: currencyList
-            });
-        }
-
-        res.redirect('/');
     },
-    edit: (req, res) => {
+    edit: async (req, res) => {
         let productSlug = req.params.slug;
-        
-        let product = ProductModel.findByField('slug', productSlug);
+        let product = ProductModel.findBySlug(productSlug);
 
-        if (!product) {
-            return res.redirect('/products', {
-                error: 'Product not found'
-            });
-        }
+        const currencies = await CurrencyModel.findAll();
+        const categories = await CategoryModel.findAll();
 
-        res.render('products/edit', {
-            product,
-            currencies: currencyList,
-            user: req.session.user || null,
-        });
+        product
+            .then(product => {
+                if (!product) {
+                    return res.redirect('/', {
+                        error: 'Product not found'
+                    });
+                }                
+
+                res.render('products/edit', {
+                    product, currencies, categories,
+                    user: req.session.user || null,
+                });
+            })
+            .catch(error => {
+                res.redirect('/', {
+                    error: 'Error finding product',
+                    message: error
+                });
+            })
+        ;
+
     },
     update: (req, res) => {
-        let product = ProductModel.findByField('slug', req.params.slug);
-        console.log("old product", product.images);
-        console.log("new product", req.body.images);
-        let images = req.body.images;
-        if (images) {
-            images = images.map(image => {
-                return {
-                    id: uuid.v4(),
-                    url: image.filename
-                }
+        try {
+            let id = req.body.id;
+            
+            ProductModel.update(id, req.body, req.files);
+
+            res.redirect('/');
+        } catch (error) {
+            res.redirect('/', {
+                error: 'Error updating product',
+                message: error
             });
         }
-        // if (!product) return res.redirect('/');
-        
-        // const errors = validationResult(req);
-
-        // if (!errors.isEmpty()) {
-        //     return res.render('products/edit', {
-        //         errors: errors.mapped(),
-        //         old: req.body,
-        //         currencies: currencyList,
-        //         product,
-        //     });
-        // }
-
-        // let productUpdated = ProductModel.update(product, req.body, req.files);
-
-        // if (productUpdated.error) {
-        //     return res.render('products/edit', {
-        //         errors: productUpdated.error,
-        //         old: req.body,
-        //         currencies: currencyList,
-        //         product,
-        //     });
-        // }
-
-        // res.redirect('/');
     },
     delete: (req, res) => {
         let productSlug = req.params.slug;
-        let product = ProductModel.findByField('slug', productSlug);
+        let product = ProductModel.findBySlug(productSlug);
 
-        if (product) {
-            ProductModel.delete(product.id);
-
-            return res.json({
-                success: true,
-                message: 'Product deleted'
-            });
-        }
-
-        return res.json({
-            success: false,
-            error: 'Product not found'
-        });
+        product
+            .then(product => {
+                if (!product) {
+                    return res.json({
+                        success: false,
+                        error: 'Product not found'
+                    });
+                }
+                
+                ProductModel.delete(product.id);
+    
+                return res.json({
+                    success: true,
+                    message: 'Product deleted'
+                });
+            })
+            .catch(error => {
+                return res.json({
+                    success: false,
+                    error: 'Error finding product',
+                    message: error
+                });
+            })
+        ;
     },
     show: (req, res) => {
         let productSlug = req.params.slug;

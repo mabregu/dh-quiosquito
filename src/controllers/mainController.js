@@ -39,29 +39,29 @@ const mainController = {
         res.render('auth/login');
     },
     loginProcess: function (req, res) {
-        try {
-            let currentUser = {
-                username: req.body.email,
-                password: req.body.password,
-                remember: req.body.remember
-            };
+        let currentUser = {
+            email: req.body.email,
+            password: req.body.password,
+            remember: req.body.remember
+        };
 
-            let validate = UserModel.validateUser(currentUser);
-
-            if (validate) {
-                req.session.user = validate;
-                if (currentUser.remember) {
-                    res.cookie('user', JSON.stringify(validate), { maxAge: 1000 * 60 * 60 * 24 * 7 });
+        UserModel.validateUser(currentUser)
+            .then(user => {
+                if (!user) {
+                    return res.render('auth/login', {
+                        error: 'Usuario o contraseña incorrectos',
+                    });
                 }
+
+                req.session.user = user;
+                if (currentUser.remember) {
+                    req.session.cookie.maxAge = 1000 * 60 * 60 * 24 * 7;
+                }
+
                 res.redirect('/');
-            } else {
-                res.render('auth/login', { error: 'Invalid username or password' });
-            }
-        } catch (error) {
-            res.render('auth/login', {
-                error: 'Invalid username or password'
-            });
-        }
+            })
+        ;
+
     },
     logout: function (req, res) {
         req.session.destroy();
