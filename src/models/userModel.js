@@ -2,40 +2,73 @@ const fs = require('fs');
 const path = require('path');
 const uuid = require('uuid');
 const bcrypt = require('bcrypt');
+const db = require('../database/models');
 
 const User = {
     userListPath: path.resolve(__dirname, '../data/users.json'),
     getAll: function () {
-        const userList = JSON.parse(fs.readFileSync(this.userListPath, 'utf8'));
+        //const userList = JSON.parse(fs.readFileSync(this.userListPath, 'utf8'));
+        const userList = db.Users.findAll({
+            where: {
+                deletedAt: null
+            }
+        });
+
         return userList;
     },
     findAll: function () {
         const userList = this.getAll();
         return userList;
     },
-    find: function (id) {
-        const userList = this.getAll();
-        const user = userList.find(user => user.id == id);
+    find: function (pk) {
+        // const userList = this.getAll();
+        // const user = userList.find(user => user.id == id);
+        const user = db.Users.findByPk(pk);
         return user;
     },
     findByField: function (field, value) {
-        const userList = this.getAll();
-        const user = userList.find(user => user[field] == value);
-        return user;
+        // const userList = this.getAll();
+        // const user = userList.find(user => user[field] == value);
+        const user = db.Users.findOne({
+            where: {
+                [field]: value,
+                deletedAt: null
+            }
+        });
+
+        return user;        
     },
     findAllByField: function (field, value) {
-        const userList = this.getAll();
-        const users = userList.filter(user => user[field] == value);
+        // const userList = this.getAll();
+        // const users = userList.filter(user => user[field] == value);
+        const users = Users.findAll({
+            where: {
+                [field]: value,
+                deletedAt: null
+            }
+        });
+
         return users;
     },
-    validateUser: function (user) {
-        const currentUser = this.findByField('username', user.username);
-        if (currentUser) {
-            if (bcrypt.compareSync(user.password, currentUser.password)) {
-                return currentUser;
+    validateUser: async function (user) {
+        try {
+            const currentUser = await this.findByField('email', user.email);
+
+            if (!currentUser) {
+                return false;
             }
+
+            const isValid = await bcrypt.compare(user.password, currentUser.password);
+
+            if (!isValid) {
+                return false;
+            }
+
+            return currentUser;
+            
+        } catch (error) {
+            return Promise.reject(error);
         }
-        throw new Error('Invalid username or password');
     },
     create: function (user) {
         try {

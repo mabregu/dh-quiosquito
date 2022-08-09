@@ -1,11 +1,18 @@
 const fs = require('fs');
 const path = require('path');
 const uuid = require('uuid');
+const db = require('../database/models');
 
 const CurrencyModel = {
     currencyListPath: path.resolve(__dirname, '../data/currencies.json'),
     getAll: function () {
-        const currencyList = JSON.parse(fs.readFileSync(this.currencyListPath, 'utf8'));
+        // const currencyList = JSON.parse(fs.readFileSync(this.currencyListPath, 'utf8'));
+        const currencyList = db.Currency.findAll({
+            where: {
+                deletedAt: null
+            }
+        });
+
         return currencyList;
     },
     findAll: function () {

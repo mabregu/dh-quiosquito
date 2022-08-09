@@ -35,10 +35,8 @@ const ProductModel = {
     find: function (id) {
         // const productList = this.getAll();
         // const product = productList.find(product => product.id == id);
-        const product = db.Products.findOne({
-            include: [
-                'category',
-                'currency',
+        const product = db.Products.findByPk(id, {
+            include: ['category', 'currency',
                 {
                     model: db.Image,
                     as: 'images',
@@ -49,7 +47,6 @@ const ProductModel = {
                 }
             ],
             where: {
-                id: id,
                 deletedAt: null
             }
         });
@@ -96,103 +93,141 @@ const ProductModel = {
         const products = productList.filter(product => product[field] == value);
         return products;
     },
-    create: function (product, images) {
+    create: function (product, files) {
         try {
-            let productList = this.findAll();
-            let productExists = this.findByField('name', product.name);
-            if (productExists) {
-                throw new Error('Product already exists');
-            }
-            //console.log("create product", images);
-            let imagesArray = [];
-            if (images) {
-                imagesArray = images.map(image => {
-                    return {
-                        id: uuid.v4(),
-                        url: image.filename
-                    }
-                });
-            }
-
-            let slug = product.name.toLowerCase().replace(/ /g, '-');
-            let newProduct = {
-                id: uuid.v4(),
+            let productData = {
                 name: product.name,
-                slug,
+                slug: product.name.replace(/ /g, '-').toLowerCase(),
                 description: product.description,
-                currency: product.currency,
+                stock: product.stock || 0,
                 price: product.price,
-                images: imagesArray,
+                currency_id: product.currency,
+                category_id: product.category,
+                user_id: product.user || 1,
+                createdAt: new Date(),
+                updatedAt: new Date(),
             };
-            productList.push(newProduct);
-            fs.writeFileSync(this.productListPath, JSON.stringify(productList, null, 2));
-            return product;
+            
+            let newProduct = db.Products.create(productData);
+
+            newProduct
+                .then(product => {
+                let lastImageId = db.Image.findAll({
+                    order: [['id', 'DESC']],
+                    limit: 1
+                });
+
+                let imagesArray = [];
+                lastImageId.then(lastImage => {
+                    let imageId = lastImage[0].id;
+                    files.forEach(file => {
+                        let imageData = {
+                            id: imageId + 1,
+                            name: file.originalname,
+                            type: file.mimetype,
+                            size: file.size,
+                            path: '/img/uploads/' + file.filename,
+                            product_id: newProduct.id,
+                            createdAt: new Date(),
+                            updatedAt: new Date(),
+                        };
+                        imagesArray.push(imageData);
+                        imageId++;
+                    });
+                    return db.Image.bulkCreate(imagesArray);
+                })
+                .then(() => {
+                    imagesArray.forEach(image => {
+                        db.ProductImage.create({
+                            product_id: product.id,
+                            image_id: image.id,
+                            createdAt: new Date(),
+                            updatedAt: new Date(),
+                        });
+                    })
+                    
+                    return newProduct;
+                })
+            })
         } catch (error) {
             return { error, message: 'Error creating product' };
         }
     },
-    update: function (oldProduct, data, files) {
+    update: function (id, data, files) {
         try {
-            let productList = this.getAll();
-            let productIndex = productList.findIndex(product => product.id == oldProduct.id);
+            let updated = db.Products.update(data, {
+                where: {
+                    id: id
+                }
+            });
+            
+            updated
+                .then(() => {
+                    if (files) {
+                        // get last id of images
+                        let lastImageId = db.Image.findAll({
+                            order: [['id', 'DESC']],
+                            limit: 1
+                        });
+                        let images = [];
 
-            productList[productIndex] = {
-                id: oldProduct.id,
-                name: data.name || oldProduct.name,
-                slug: data.name.toLowerCase().replace(/ /g, '-'),
-                description: data.description || oldProduct.description,
-                currency: data.currency || oldProduct.currency,
-                price: data.price || oldProduct.price,
-                images: oldProduct.images,
-            };
+                        lastImageId
+                            .then(lastImage => {
+                                let lastId = lastImage[0].id;
+                                //console.log("lastId", lastId);
+                                images = files.map(file => {
+                                    return {
+                                        id: ++lastId,
+                                        name: file.originalname,
+                                        type: file.mimetype,
+                                        size: file.size,
+                                        path: "/img/uploads/" + file.filename,
+                                        createdAt: new Date(),
+                                        updatedAt: new Date(),
+                                        deletedAt: null,
+                                    }
+                                });
 
-            let imagesArray = [];
-            if (files) {
-                imagesArray = files.map(image => {
-                    return {
-                        id: uuid.v4(),
-                        url: image.filename
+                                return db.Image.bulkCreate(images);
+                            })
+                            .then(() => {
+                                images.forEach(image => {
+                                    db.ProductImage.create({
+                                        product_id: id,
+                                        image_id: image.id,
+                                        createdAt: new Date(),
+                                        updatedAt: new Date(),
+                                        deletedAt: null,
+                                    });
+                                });
+                            })
+                            .catch(error => {
+                                console.log(error);
+                            })
+                            .finally(() => {
+                                console.log("images", images);
+                            })
+                        ;
                     }
-                });
-            }
 
-            if (imagesArray.length > 0) {
-                productList[productIndex].images = imagesArray;
-            }
-
-            fs.writeFileSync(this.productListPath, JSON.stringify(productList, null, 2));
-
-            return productList[productIndex];
+                    return true;
+                })
+            ;
         } catch (error) {
             return { error, message: 'Error updating product' };
         }
     },
     delete: function (id) {
         try {
-            let currentProduct = this.find(id);
-
-            if (currentProduct) {
-                let productList = this.getAll();
-                let productIndex = productList.findIndex(product => product.id == id);
-                productList.splice(productIndex, 1);
-                fs.writeFileSync(this.productListPath, JSON.stringify(productList, null, 2));
-                
-                if (currentProduct.images) {
-                    console.log("delete images", currentProduct.images);
-                    currentProduct.images.forEach(image => {
-                        let imagePath = path.resolve(__dirname, '../public/img/uploads/' + image.url);
-                        fs.unlinkSync(imagePath);
-                    });
+            let deleted = db.Products.update({
+                deletedAt: new Date()
+            }, {
+                where: {
+                    id: id
                 }
+            });
 
-                return { success: true };
-            } else {
-                return { 
-                    error: 'Product not found',
-                    message: 'Error deleting product',
-                    success: false
-                };
-            }
+            return deleted;
         } catch (error) {
             return { 
                 error, 
