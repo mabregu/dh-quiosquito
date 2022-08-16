@@ -10,7 +10,8 @@
     <%- include('../partials/nav') %>
 
     <div class="flex items-center justify-center py-12 px-4">
-        <form class="w-3/4"
+        <form id="form-edit-product"
+            class="w-3/4"
             action="/products/edit/<%= product.slug %>?_method=PUT"
             method="post" 
             enctype="multipart/form-data"
@@ -43,7 +44,7 @@
                             </label>
                             <div class="mt-1 flex rounded-md shadow-sm">
                                 <select class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
-                                    name="category" 
+                                    name="category_id" 
                                     id="category"
                                 >
                                     <% categories.forEach(category => { %>
@@ -67,12 +68,12 @@
                             </label>
                             <div class="mt-1 flex rounded-md shadow-sm">
                                 <select class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
-                                    name="currency" 
+                                    name="currency_id" 
                                     id="currency"
                                 >
                                     <% currencies.forEach(currency => { %>
-                                        <option value="<%= currency.symbol %>"
-                                            <% if (currency.symbol === product.currency) { %>
+                                        <option value="<%= currency.id %>"
+                                            <% if (currency.id === product.currency_id) { %>
                                                 selected
                                             <% } %>
                                         >
@@ -141,6 +142,7 @@
                                             <button class="flex justify-center items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-red-600 bg-white hover:bg-gray-100 focus:outline-none focus:border-gray-300 focus:shadow-outline-gray active:bg-gray-100 transition ease-in-out duration-150"
                                                 type="button"
                                                 data-image="<%= image.url %>"
+                                                data-imageId="<%= image.id %>"
                                                 onclick="deleteImage(this)"
                                             >
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -153,7 +155,6 @@
                                                 class="w-full h-full object-center object-cover"
                                             >
 
-                                            <input type="hidden" name="images[]" value="<%= image.url %>">
                                             <input type="hidden" name="imagesId[]" value="<%= image.id %>">
                                         </div>
                                     <% }) %>

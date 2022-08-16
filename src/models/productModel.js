@@ -55,7 +55,18 @@ const ProductModel = {
     },
     findBySlug: function (slug) {
         const product = db.Products.findOne({
-            include: ['category','currency','images'],
+            include: [
+                'category',
+                'currency',
+                {
+                    model: db.Image,
+                    as: 'images',
+                    attributes: ['id', 'name', 'type', 'size', 'path'],
+                    where: {
+                        deletedAt: null
+                    }
+                }
+            ],
             where: {
                 slug: slug,
                 deletedAt: null
@@ -153,66 +164,122 @@ const ProductModel = {
             return { error, message: 'Error creating product' };
         }
     },
-    update: function (id, data, files) {
+    update: async function (id, data, files) {
         try {
-            let updated = db.Products.update(data, {
-                where: {
-                    id: id
-                }
+            console.log("************************* Update product *************************");
+            let updated = await db.Products.update(data, {
+                where: { id }
             });
-            
-            updated
-                .then(() => {
-                    if (files) {
-                        // get last id of images
-                        let lastImageId = db.Image.findAll({
-                            order: [['id', 'DESC']],
-                            limit: 1
+
+            console.log("update data", data);
+
+            // images deleted from form
+            if (data.images_deleted_id) {
+                data.images_deleted_id.forEach(imageId => {
+                    db.Image.update({
+                        deletedAt: new Date()
+                    }, {
+                            where: {
+                                id: imageId
+                            }
                         });
-                        let images = [];
+                });
+            }
 
-                        lastImageId
-                            .then(lastImage => {
-                                let lastId = lastImage[0].id;
-                                //console.log("lastId", lastId);
-                                images = files.map(file => {
-                                    return {
-                                        id: ++lastId,
-                                        name: file.originalname,
-                                        type: file.mimetype,
-                                        size: file.size,
-                                        path: "/img/uploads/" + file.filename,
-                                        createdAt: new Date(),
-                                        updatedAt: new Date(),
-                                        deletedAt: null,
-                                    }
-                                });
+            if (files.length > 0) {
+                let lastImageId = db.Image.findAll({
+                    order: [['id', 'DESC']],
+                    limit: 1
+                });
 
-                                return db.Image.bulkCreate(images);
-                            })
-                            .then(() => {
-                                images.forEach(image => {
-                                    db.ProductImage.create({
-                                        product_id: id,
-                                        image_id: image.id,
-                                        createdAt: new Date(),
-                                        updatedAt: new Date(),
-                                        deletedAt: null,
-                                    });
-                                });
-                            })
-                            .catch(error => {
-                                console.log(error);
-                            })
-                            .finally(() => {
-                                console.log("images", images);
-                            })
-                        ;
-                    }
-
-                    return true;
+                let imagesArray = [];
+                lastImageId.then(lastImage => {
+                    let imageId = lastImage[0].id;
+                    files.forEach(file => {
+                        let imageData = {
+                            id: imageId + 1,
+                            name: file.originalname,
+                            type: file.mimetype,
+                            size: file.size,
+                            path: '/img/uploads/' + file.filename,
+                            product_id: id,
+                            createdAt: new Date(),
+                            updatedAt: new Date(),
+                        };
+                        imagesArray.push(imageData);
+                        imageId++;
+                    });
+                    return db.Image.bulkCreate(imagesArray);
                 })
-            ;
+                .then((image) => {
+                    console.log(image);
+                    imagesArray.forEach(image => {
+                        db.ProductImage.create({
+                            product_id: id,
+                            image_id: image.id,
+                            createdAt: new Date(),
+                            updatedAt: new Date(),
+                        });
+                    })
+                    
+                    return updated;
+                })
+            } else {
+                return updated;
+            }
+            
+            // updated
+            //     .then(() => {
+            //         if (files) {
+            //             // get last id of images
+            //             let lastImageId = db.Image.findAll({
+            //                 order: [['id', 'DESC']],
+            //                 limit: 1
+            //             });
+            //             let images = [];
+
+            //             lastImageId
+            //                 .then(lastImage => {
+            //                     let lastId = lastImage[0].id;
+            //                     //console.log("lastId", lastId);
+            //                     images = files.map(file => {
+            //                         return {
+            //                             id: ++lastId,
+            //                             name: file.originalname,
+            //                             type: file.mimetype,
+            //                             size: file.size,
+            //                             path: "/img/uploads/" + file.filename,
+            //                             createdAt: new Date(),
+            //                             updatedAt: new Date(),
+            //                             deletedAt: null,
+            //                         }
+            //                     });
+
+            //                     return db.Image.bulkCreate(images);
+            //                 })
+            //                 .then(() => {
+            //                     images.forEach(image => {
+            //                         db.ProductImage.create({
+            //                             product_id: id,
+            //                             image_id: image.id,
+            //                             createdAt: new Date(),
+            //                             updatedAt: new Date(),
+            //                             deletedAt: null,
+            //                         });
+            //                     });
+            //                 })
+            //                 .catch(error => {
+            //                     console.log(error);
+            //                 })
+            //                 .finally(() => {
+            //                     console.log("images", images);
+            //                 })
+            //             ;
+            //         }
+
+            //         return true;
+            //     })
+            // ;
         } catch (error) {
             return { error, message: 'Error updating product' };
         }

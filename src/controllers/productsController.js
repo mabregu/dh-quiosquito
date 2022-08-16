@@ -1,8 +1,8 @@
 const fs = require('fs');
 const { validationResult } = require('express-validator');
 const CurrencyModel = require('../models/currenciesModel');
-const ProductModel = require('../models/productModel');
 const CategoryModel = require('../models/categoriesModel');
+const ProductModel = require('../models/productModel');
 const productsController = {
     index: (req, res) => {
         res.render('products/index', {
@@ -43,7 +43,7 @@ const productsController = {
                 });
             }
             
-            ProductModel.create(req.body, req.files);
+            await ProductModel.create(req.body, req.files);
             
             return res.redirect('/');
         } catch (error) {
@@ -58,39 +58,34 @@ const productsController = {
         }
     },
     edit: async (req, res) => {
-        let productSlug = req.params.slug;
-        let product = ProductModel.findBySlug(productSlug);
-
-        const currencies = await CurrencyModel.findAll();
-        const categories = await CategoryModel.findAll();
-
-        product
-            .then(product => {
-                if (!product) {
-                    return res.redirect('/', {
-                        error: 'Product not found'
-                    });
-                }                
-
-                res.render('products/edit', {
-                    product, currencies, categories,
-                    user: req.session.user || null,
-                });
-            })
-            .catch(error => {
-                res.redirect('/', {
-                    error: 'Error finding product',
-                    message: error
-                });
-            })
-        ;
+        try {
+            let productSlug = req.params.slug;
+            let product = await ProductModel.findBySlug(productSlug);
+            const currencies = await CurrencyModel.findAll();
+            const categories = await CategoryModel.findAll();
+            
+            res.render('products/edit', {
+                product,
+                currencies, categories,
+                user: req.session.user || null,
+            });
+            
+        } catch (error) {
+            return res.render('products/edit', {
+                errors: {
+                    message: 'Error al editar el producto',
+                    detail: error,
+                },
+                user: req.session.user || null,
+            });
+        }
 
     },
-    update: (req, res) => {
+    update: async (req, res) => {
         try {
             let id = req.body.id;
             
-            ProductModel.update(id, req.body, req.files);
+            await ProductModel.update(id, req.body, req.files);
 
             res.redirect('/');
         } catch (error) {

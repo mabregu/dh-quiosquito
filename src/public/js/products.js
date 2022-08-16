@@ -16,6 +16,7 @@ function deleteProduct(element) {
         } else {
             console.log(data);
         }
+
     })
     .catch(error => console.log(error));
 }
