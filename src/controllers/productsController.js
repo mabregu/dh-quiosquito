@@ -19,10 +19,10 @@ const productsController = {
         });
     },
     store: async (req, res) => {
+        const currencies = await CurrencyModel.findAll();
+        const categories = await CategoryModel.findAll();
         try {
             const errors = validationResult(req);
-            const currencies = await CurrencyModel.findAll();
-            const categories = await CategoryModel.findAll();
     
             if (!errors.isEmpty()) {
                 // elinminar los archivos subidos

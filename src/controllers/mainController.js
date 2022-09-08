@@ -7,7 +7,6 @@ const mainController = {
     home: function (req, res) {
         ProductModel.findAll()
             .then(products => {
-                //console.log(products);
                 res.render('index', {
                     products: products || [],
                     user: req.session.user || null,

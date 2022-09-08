@@ -8,6 +8,7 @@ const methodOverride = require('method-override');
 
 const PORT = process.env.PORT || 3000;
 const mainRoutes = require('./routes/mainRoutes');
+const productsApiRoutes = require('./routes/api/products');
 const productsRoutes = require('./routes/productsRoutes');
 
 const remember = require('./middlewares/rememberMe');
@@ -36,6 +37,9 @@ app.use(remember);
 // Routes
 app.use(mainRoutes);
 app.use('/products', productsRoutes);
+
+// api routes
+app.use("/api/products", productsApiRoutes);
 
 // Start the server
 app.listen(PORT, () => {

@@ -106,62 +106,50 @@ const ProductModel = {
     },
     create: function (product, files) {
         try {
-            let productData = {
-                name: product.name,
-                slug: product.name.replace(/ /g, '-').toLowerCase(),
-                description: product.description,
-                stock: product.stock || 0,
-                price: product.price,
-                currency_id: product.currency,
-                category_id: product.category,
-                user_id: product.user || 1,
-                createdAt: new Date(),
-                updatedAt: new Date(),
-            };
-            
-            let newProduct = db.Products.create(productData);
+            let imagesArray = files.map((image) => {
+                return {
+                    name: image.originalname,
+                    type: image.mimetype,
+                    size: image.size,
+                    path: '/img/uploads/' + image.filename,
+                    createdAt: new Date(),
+                    updatedAt: new Date(),
+                }
+            });
 
-            newProduct
-                .then(product => {
-                let lastImageId = db.Image.findAll({
-                    order: [['id', 'DESC']],
-                    limit: 1
-                });
+            let newProduct = db.Products.create(
+                {
+                    name: product.name,
+                    slug: product.name.replace(/ /g, '-').toLowerCase(),
+                    description: product.description,
+                    stock: product.stock || 0,
+                    price: product.price,
+                    currency_id: product.currency,
+                    category_id: product.category,
+                    user_id: product.user || 1,
+                    createdAt: new Date(),
+                    updatedAt: new Date(),
+                    images: imagesArray
+                }, 
+                { include: ['images'] }
+            );
 
-                let imagesArray = [];
-                lastImageId.then(lastImage => {
-                    let imageId = lastImage[0].id;
-                    files.forEach(file => {
-                        let imageData = {
-                            id: imageId + 1,
-                            name: file.originalname,
-                            type: file.mimetype,
-                            size: file.size,
-                            path: '/img/uploads/' + file.filename,
-                            product_id: newProduct.id,
-                            createdAt: new Date(),
-                            updatedAt: new Date(),
-                        };
-                        imagesArray.push(imageData);
-                        imageId++;
-                    });
-                    return db.Image.bulkCreate(imagesArray);
-                })
-                .then(() => {
-                    imagesArray.forEach(image => {
-                        db.ProductImage.create({
-                            product_id: product.id,
-                            image_id: image.id,
-                            createdAt: new Date(),
-                            updatedAt: new Date(),
-                        });
-                    })
-                    
-                    return newProduct;
-                })
-            })
+            return newProduct;
         } catch (error) {
             return { error, message: 'Error creating product' };
+        }
+    },
+    // api
+    store: async (product) => {
+        try {
+            return await db.Products.create(product, {
+                include: ['images']
+            });
+        } catch (error) {
+            return { 
+                error, 
+                message: 'Error creating product' 
+            };
         }
     },
     update: async function (id, data, files) {
