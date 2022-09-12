@@ -7,26 +7,30 @@ const ProductImageModel = require('./productImageModel');
 
 const ProductModel = {
     productListPath: path.resolve(__dirname, '../data/products.json'),
-    getAll: function () {
-        //const productList = JSON.parse(fs.readFileSync(this.productListPath, 'utf8'));
-        const productList = db.Products.findAll({
-            include: [
-                'category',
-                'currency',
-                {
-                    model: db.Image,
-                    as: 'images',
-                    attributes: ['id', 'name', 'type', 'size', 'path'],
-                    where: {
-                        deletedAt: null
+    getAll: async function () {
+        let productList = [];
+        try {
+            productList = await db.Products.findAll({
+                include: [
+                    'category',
+                    'currency',
+                    {
+                        model: db.Image,
+                        as: 'images',
+                        attributes: ['id', 'name', 'type', 'size', 'path'],
+                        where: {
+                            deletedAt: null
+                        }
                     }
-                }
-            ],
-            where: {
-                deletedAt: null
-            },
-            limit: 16,
-        });
+                ],
+                where: {
+                    deletedAt: null
+                },
+                limit: 16,
+            });
+        } catch (error) {
+            return error;
+        }
 
         return productList;
     },
@@ -34,24 +38,28 @@ const ProductModel = {
         const productList = this.getAll();
         return productList;
     },
-    find: function (id) {
-        // const productList = this.getAll();
-        // const product = productList.find(product => product.id == id);
-        const product = db.Products.findByPk(id, {
-            include: ['category', 'currency',
-                {
-                    model: db.Image,
-                    as: 'images',
-                    attributes: ['id', 'name', 'type', 'size', 'path'],
-                    where: {
-                        deletedAt: null
+    find: async function (id) {
+        let product = null;
+        try {
+            product = await db.Products.findByPk(id, {
+                include: ['category', 'currency',
+                    {
+                        model: db.Image,
+                        as: 'images',
+                        attributes: ['id', 'name', 'type', 'size', 'path'],
+                        where: {
+                            deletedAt: null
+                        }
                     }
+                ],
+                where: {
+                    deletedAt: null
                 }
-            ],
-            where: {
-                deletedAt: null
-            }
-        });
+            });
+            
+        } catch (error) {
+            return error;
+        }
 
         return product;
     },

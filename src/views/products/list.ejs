@@ -5,34 +5,40 @@
         <!-- navigation -->
         <%- include('../components/nav-filter-search') %>
 
-        <% products.forEach(product => { %>
-            <div id="product-<%= product.slug %>" class="w-full md:w-1/3 xl:w-1/4 p-6 flex flex-col">
-                <a href="/products/<%= product.slug %>">
-                    <% if (Array.isArray(product.images)) { %>
-                        <img 
-                            src="<%= product.images[0].path %>"
-                            class="hover:grow hover:shadow-lg object-cover h-48 w-96 rounded" 
-                        >
-                    <% } %>
-                    <p style="color: #000; font-size: 1.2rem; font-weight: bold; margin-top: 0.5rem;">
-                        <%= product.category.name %>
-                    </p>
-                    <div class="pt-3 flex items-center justify-between">
-                        <p><%= product.name %></p>
-                        <div class="pt-3 flex items-center">
-                            <% if(isLoggedIn) { %>
-                                <!-- product actions -->
-                                <%- include('./actions', { product: product }) %>
-                            <% } %>
+        <% if (products.length) { %>
+
+            <% products.forEach(product => { %>
+                <div id="product-<%= product.slug %>" class="w-full md:w-1/3 xl:w-1/4 p-6 flex flex-col">
+                    <a href="/products/<%= product.slug %>">
+                        <% if (Array.isArray(product.images)) { %>
+                            <img 
+                                src="<%= product.images[0].path %>"
+                                class="hover:grow hover:shadow-lg object-cover h-48 w-96 rounded" 
+                            >
+                        <% } %>
+                        <p style="color: #000; font-size: 1.2rem; font-weight: bold; margin-top: 0.5rem;">
+                            <%= product.category.name %>
+                        </p>
+                        <div class="pt-3 flex items-center justify-between">
+                            <p><%= product.name %></p>
+                            <div class="pt-3 flex items-center">
+                                <% if(isLoggedIn) { %>
+                                    <!-- product actions -->
+                                    <%- include('./actions', { product: product }) %>
+                                <% } %>
+                            </div>
                         </div>
-                    </div>
-                    <p class="pt-1 text-gray-900">
-                        <%= product.currency.code %> 
-                        <%= product.price %>
-                    </p>
-                </a>
-            </div>
-        <% }) %>
+                        <p class="pt-1 text-gray-900">
+                            <%= product.currency.code %> 
+                            <%= product.price %>
+                        </p>
+                    </a>
+                </div>
+            <% }) %>
+
+        <% } else { %>
+            <h1>Sin datos <br> ¿Nos conectamos a la base de datos?</h1>
+        <% } %>
     </div>
 
 </section>
