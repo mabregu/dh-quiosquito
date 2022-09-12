@@ -12,15 +12,4 @@ router
     .post('/', productsController.store)
 ;
 
-// router.get('/create', auth, productsController.create);
-
-// router.post('/create', auth, upload.array('images', 5), validateProduct, productsController.store);
-
-// router.get('/edit/:slug', auth, productsController.edit);
-// router.put('/edit/:slug', auth, upload.array('images', 5), productsController.update);
-
-// router.delete('/delete/:slug', auth, productsController.delete);
-
-// router.get('/:slug', productsController.show);
-
 module.exports = router;

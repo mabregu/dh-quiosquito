@@ -1,12 +1,16 @@
 function deleteImage(element) {
-    let url = ""
-    element.parentNode.remove();
-    // add input hidden to form with image_id
-    let input = document.createElement('input');
-    input.setAttribute('type', 'hidden');
-    input.setAttribute('name', 'images_deleted_id');
-    input.setAttribute('value', element.getAttribute('data-imageId'));
-    document.getElementById('form-edit-product').appendChild(input);
+    let imageId = element.getAttribute("data-image-id");
+    let url = "/api/images/" + imageId;
+
+    fetch(url, { method: 'DELETE' })
+        .then(response => response.json())
+        .then(result => {
+            if (result.success) {
+                element.parentNode.remove();
+            }
+        })
+        .catch(err => console.log(err))
+    ;
 }
 
 function areYouSureDeleteImage(product) {

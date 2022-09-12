@@ -9,9 +9,11 @@ const methodOverride = require('method-override');
 const PORT = process.env.PORT || 3000;
 const mainRoutes = require('./routes/mainRoutes');
 const productsApiRoutes = require('./routes/api/products');
+const imagesApiRoutes = require('./routes/api/images');
 const productsRoutes = require('./routes/productsRoutes');
 
 const remember = require('./middlewares/rememberMe');
+const { log } = require('console');
 
 // Set the view engine to ejs
 app.set('view engine', 'ejs');
@@ -40,9 +42,11 @@ app.use('/products', productsRoutes);
 
 // api routes
 app.use("/api/products", productsApiRoutes);
+app.use("/api/images", imagesApiRoutes);
 
 // Start the server
 app.listen(PORT, () => {
     console.log(`Server is running on port http://localhost:${PORT}`);
     console.log(`Press CTRL + C to stop server`);
+    console.log(process.env.DB_USERNAME);
 });

@@ -58,11 +58,12 @@ const productsController = {
         }
     },
     edit: async (req, res) => {
+        const currencies = await CurrencyModel.findAll();
+        const categories = await CategoryModel.findAll();
+
         try {
             let productSlug = req.params.slug;
             let product = await ProductModel.findBySlug(productSlug);
-            const currencies = await CurrencyModel.findAll();
-            const categories = await CategoryModel.findAll();
             
             res.render('products/edit', {
                 product,
@@ -83,9 +84,17 @@ const productsController = {
     },
     update: async (req, res) => {
         try {
-            let id = req.body.id;
+            let product = {
+                name: req.body.name,
+                price: req.body.price,
+                description: req.body.description,
+                category_id: req.body.category_id,
+                currency_id: req.body.currency_id,
+            }
             
-            await ProductModel.update(id, req.body, req.files);
+            let rs = await ProductModel.update(req.body.id, product, req.files);
+
+            console.log("Product updated successfully", rs);
 
             res.redirect('/');
         } catch (error) {

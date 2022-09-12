@@ -2,6 +2,8 @@ const fs = require('fs');
 const path = require('path');
 const uuid = require('uuid');
 const db  = require('../database/models');
+const ImageModel = require('./imageModel');
+const ProductImageModel = require('./productImageModel');
 
 const ProductModel = {
     productListPath: path.resolve(__dirname, '../data/products.json'),
@@ -154,120 +156,18 @@ const ProductModel = {
     },
     update: async function (id, data, files) {
         try {
-            console.log("************************* Update product *************************");
             let updated = await db.Products.update(data, {
                 where: { id }
             });
 
-            console.log("update data", data);
-
-            // images deleted from form
-            if (data.images_deleted_id) {
-                data.images_deleted_id.forEach(imageId => {
-                    db.Image.update({
-                        deletedAt: new Date()
-                    }, {
-                            where: {
-                                id: imageId
-                            }
-                        });
-                });
+            if (files.length) {
+                // add images to the product
+                let saveImages = await ImageModel.store(files);
+                // add references
+                if (saveImages) await ProductImageModel.store(id, saveImages);
             }
 
-            if (files.length > 0) {
-                let lastImageId = db.Image.findAll({
-                    order: [['id', 'DESC']],
-                    limit: 1
-                });
-
-                let imagesArray = [];
-                lastImageId.then(lastImage => {
-                    let imageId = lastImage[0].id;
-                    files.forEach(file => {
-                        let imageData = {
-                            id: imageId + 1,
-                            name: file.originalname,
-                            type: file.mimetype,
-                            size: file.size,
-                            path: '/img/uploads/' + file.filename,
-                            product_id: id,
-                            createdAt: new Date(),
-                            updatedAt: new Date(),
-                        };
-                        imagesArray.push(imageData);
-                        imageId++;
-                    });
-                    return db.Image.bulkCreate(imagesArray);
-                })
-                .then((image) => {
-                    console.log(image);
-                    imagesArray.forEach(image => {
-                        db.ProductImage.create({
-                            product_id: id,
-                            image_id: image.id,
-                            createdAt: new Date(),
-                            updatedAt: new Date(),
-                        });
-                    })
-                    
-                    return updated;
-                })
-            } else {
-                return updated;
-            }
-            
-            // updated
-            //     .then(() => {
-            //         if (files) {
-            //             // get last id of images
-            //             let lastImageId = db.Image.findAll({
-            //                 order: [['id', 'DESC']],
-            //                 limit: 1
-            //             });
-            //             let images = [];
-
-            //             lastImageId
-            //                 .then(lastImage => {
-            //                     let lastId = lastImage[0].id;
-            //                     //console.log("lastId", lastId);
-            //                     images = files.map(file => {
-            //                         return {
-            //                             id: ++lastId,
-            //                             name: file.originalname,
-            //                             type: file.mimetype,
-            //                             size: file.size,
-            //                             path: "/img/uploads/" + file.filename,
-            //                             createdAt: new Date(),
-            //                             updatedAt: new Date(),
-            //                             deletedAt: null,
-            //                         }
-            //                     });
-
-            //                     return db.Image.bulkCreate(images);
-            //                 })
-            //                 .then(() => {
-            //                     images.forEach(image => {
-            //                         db.ProductImage.create({
-            //                             product_id: id,
-            //                             image_id: image.id,
-            //                             createdAt: new Date(),
-            //                             updatedAt: new Date(),
-            //                             deletedAt: null,
-            //                         });
-            //                     });
-            //                 })
-            //                 .catch(error => {
-            //                     console.log(error);
-            //                 })
-            //                 .finally(() => {
-            //                     console.log("images", images);
-            //                 })
-            //             ;
-            //         }
-
-            //         return true;
-            //     })
-            // ;
+            return updated;
         } catch (error) {
             return { error, message: 'Error updating product' };
         }

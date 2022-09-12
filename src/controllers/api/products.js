@@ -38,24 +38,6 @@ const products = {
                 category_id: req.body.category_id || 6, // default sin asignar
                 currency_id: req.body.currency_id || 5, // default pesos argentinos
                 user_id: req.body.user_id || 1,
-                // images: [
-                //     {
-                //         name: productHelper.getSlug("Sample images"),
-                //         type: "image/jpeg",
-                //         size: 20983,
-                //         path: "/img/uploads/16606095036e2e09.jpg",
-                //         createdAt: new Date(),
-                //         updatedAt: new Date()
-                //     },
-                //     {
-                //         name: productHelper.getSlug("Second Sample images"),
-                //         type: "image/jpeg",
-                //         size: 203,
-                //         path: "/img/uploads/1660609522209.jpg",
-                //         createdAt: new Date(),
-                //         updatedAt: new Date()
-                //     }
-                // ],
                 createdAt: new Date(),
                 updatedAt: new Date()                
             }
