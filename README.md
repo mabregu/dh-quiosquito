@@ -12,3 +12,8 @@
 - ` npx sequelize-cli db:seed:all ` esto corre los seeds (carga la data de prueba, para tener info).
 - ` npm run dev `
 - Y a cruzar los dedos 😅
+
+### User de prueba
+
+` username: johndoe@mail.com `
+` password: 123456 `

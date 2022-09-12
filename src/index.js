@@ -48,5 +48,4 @@ app.use("/api/images", imagesApiRoutes);
 app.listen(PORT, () => {
     console.log(`Server is running on port http://localhost:${PORT}`);
     console.log(`Press CTRL + C to stop server`);
-    console.log(process.env.DB_USERNAME);
 });
