@@ -11,6 +11,7 @@ const mainRoutes = require('./routes/mainRoutes');
 const productsApiRoutes = require('./routes/api/products');
 const imagesApiRoutes = require('./routes/api/images');
 const productsRoutes = require('./routes/productsRoutes');
+const cartRoutes = require('./routes/cartRoutes');
 
 const remember = require('./middlewares/rememberMe');
 const { log } = require('console');
@@ -39,6 +40,7 @@ app.use(remember);
 // Routes
 app.use(mainRoutes);
 app.use('/products', productsRoutes);
+app.use('/cart', cartRoutes);
 
 // api routes
 app.use("/api/products", productsApiRoutes);
