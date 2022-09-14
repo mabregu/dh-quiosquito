@@ -26,17 +26,20 @@ const User = {
         const user = db.Users.findByPk(pk);
         return user;
     },
-    findByField: function (field, value) {
-        // const userList = this.getAll();
-        // const user = userList.find(user => user[field] == value);
-        const user = db.Users.findOne({
-            where: {
-                [field]: value,
-                deletedAt: null
-            }
-        });
+    findByField: async function (field, value) {
+        let user = null;
+        try {
+            user = await db.users.findOne({
+                where: {
+                    [field]: value,
+                    deletedAt: null
+                }
+            });
+        } catch (error) {
+            console.log(error);
+        }
 
-        return user;        
+        return user ? user.toJSON() : null;
     },
     findAllByField: function (field, value) {
         // const userList = this.getAll();
@@ -70,27 +73,23 @@ const User = {
             return Promise.reject(error);
         }
     },
-    create: function (user) {
+    create: async (user) => {
         try {
-            let userList = this.findAll();
-            let userExists = this.findByField('username', user.username);
+            let userExists = await User.findByField('email', user.username);
+
             if (userExists) {
                 throw new Error('User already exists');
             }
-            console.log(userExists);
 
-            let newUser = {
-                id: uuid.v4(),
+            let newUser = await db.users.create({
                 name: user.name,
-                username: user.username,
+                email: user.username,
                 password: bcrypt.hashSync(user.password, 10),
                 createdAt: new Date(),
                 updatedAt: new Date()
-            };
+                
+            });
 
-            userList.push(newUser);
-
-            fs.writeFileSync(this.userListPath, JSON.stringify(userList, null, 2));
             return newUser;
         } catch (error) {
             return { error, message: 'Error creating user' };

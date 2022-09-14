@@ -70,7 +70,7 @@ const mainController = {
     register: function (req, res) {
         res.render('auth/register');
     },
-    registerProcess: function (req, res) {
+    registerProcess: async (req, res) => {
         try {
             const errors = validationResult(req);
 
@@ -87,7 +87,7 @@ const mainController = {
                 password: req.body.password,
             }
 
-            let user = UserModel.create(newUser);
+            let user = await UserModel.create(newUser);
 
             if (user.error) {
                 return res.render('auth/register', {
@@ -96,7 +96,7 @@ const mainController = {
                 });
             }
 
-            res.redirect('/login', { success: 'Registration successful' });
+            res.redirect('/login');
         } catch (error) {
             res.render('auth/register', {
                 error: 'Error creating user'
