@@ -53,3 +53,12 @@
 #cart {
     display: none;
 }
+
+#cart-count-items {
+    color: #fafafa;
+    text-align: center;
+}
+
+#cart-count-notification {
+    background-color: transparent;
+}
