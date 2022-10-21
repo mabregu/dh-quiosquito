@@ -6,23 +6,27 @@ let cartList = document.getElementById("cart-list");
 let cartCountNotification = document.getElementById("cart-count-notification");
 let cartCountItems = document.getElementById("cart-count-items");
 let cartSubtotal = document.getElementById("cart-subtotal");
+let spaceCart = document.querySelectorAll('.pointer-events-auto');
 
 addProductListToCart();
 notificationCart();
 
+/**
+ * Evento para mostrar el carrito de compras cuando hace click en el boton de carrito
+ */
 cartBtn.onclick = () => {
-    if (cartPage.style.display == "none" || cartPage.style.display == "") {
-        cartPage.style.display = "block";
-    } else {
-        cartPage.style.display = "none";
-    }
+    cartPage.classList.toggle("cart-show");
+    cartPage.classList.toggle("cart-hide");
 };
 
+/**
+ * Evento para ocultar el carrito de compras cuando hace click en el boton de cerrar
+ */
 cartBtnClose.onclick = () => {
-    if (cartPage.style.display == "block") {
-        cartPage.style.display = "none";
-    }
+    cartPage.classList.toggle("cart-show");
+    cartPage.classList.toggle("cart-hide");
 };
+
 
 if (addToCartBtn) {
     addToCartBtn.onclick = (e) => {
@@ -69,7 +73,10 @@ function addProductItem(product) {
                     <p class="mt-1 text-sm text-gray-500">${product.description}</p>
                 </div>
                 <div class="flex flex-1 items-end justify-between text-sm">
-                    <p id="cart-item-quantity-${product.id}" class="text-gray-500">${product.quantity}</p>
+                    <p class="text-gray-500">
+                        Cantidad: <span id="cart-item-quantity-${product.id}">${product.quantity}</span>
+                    </p>
+                    <input type="number" class="form-input w-16 text-center" value="${product.quantity}" min="1" max="10" step="1" data-id="${product.id}" onchange="updateQuantity(this)" id="change-cart-item-quantity-${product.id}">
                     <div class="flex">
                         <button 
                             type="button" 
@@ -87,6 +94,12 @@ function addProductItem(product) {
 
 function removeItemCart(elementId) {
     document.getElementById(elementId).remove();
+    let productList = getCart();
+    let product = productList.find(p => p.id == elementId.split('-')[3]);
+    let index = productList.indexOf(product);
+    productList.splice(index, 1);
+    localStorage.setItem('cart', JSON.stringify(productList));
+    cartSubtotal.innerText = getSubtotal(productList);
 
     notificationCart();
 }
@@ -108,38 +121,43 @@ function notificationCart() {
     cartCountItems.innerText = getCountItemsInCart();
 
     if (getCountItemsInCart()) cartCountNotification.style.backgroundColor = 'red';
+    else cartCountNotification.style.backgroundColor = 'transparent';
 }
 
 function updateOrCreateCart(product) {
-    let newItem = {
-        id: product.id,
-        name: product.name,
-        description: product.description,
-        price: product.price,
-        currency: product.currency,
-        image: product.image,
-        quantity: 1
-    };
-
-    if (localStorage.getItem('cart')) {
-        let cart = JSON.parse(localStorage.getItem('cart'));
-        let indexProductInCart = cart.findIndex(cartItem => cartItem.id == product.id);
-
-        if (indexProductInCart !== -1) {
-            cart[indexProductInCart].quantity++;
-            document.getElementById('cart-item-quantity-' + product.id).innerText = cart[indexProductInCart].quantity;
+    let productList = getCart();
+    if (productList) {
+        let productFound = productList.find(p => p.id == product.id);
+        if (productFound) {
+            productFound.quantity += 1;
+            document.getElementById(`cart-item-quantity-${product.id}`).innerText = productFound.quantity;
+            document.getElementById(`change-cart-item-quantity-${product.id}`).value = productFound.quantity;
         } else {
-            cart.push(newItem);
-            addProductListToCart();
+            product.quantity = 1;
+            productList.push(product);
+            addProductItem(product);
         }
-
-        localStorage.setItem('cart', JSON.stringify(cart));
-        cartSubtotal.innerText = getSubtotal(cart);
     } else {
-        localStorage.setItem("cart", JSON.stringify([ newItem ]));
-        addProductListToCart();
+        product.quantity = 1;
+        productList = [product];
+        addProductItem(product);
     }
+    
+    localStorage.setItem('cart', JSON.stringify(productList));
+    cartSubtotal.innerText = getSubtotal(productList);
+    notificationCart();
+}
 
+function updateQuantity(element) {
+    let productList = getCart();
+    let productFound = productList.find(p => p.id == element.dataset.id);
+    if (productFound) {
+        productFound.quantity = element.value;
+        document.getElementById(`cart-item-quantity-${productFound.id}`).innerText = productFound.quantity;
+    }
+    
+    localStorage.setItem('cart', JSON.stringify(productList));
+    cartSubtotal.innerText = getSubtotal(productList);
     notificationCart();
 }
 

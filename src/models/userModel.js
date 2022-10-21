@@ -42,8 +42,6 @@ const User = {
         return user ? user.toJSON() : null;
     },
     findAllByField: function (field, value) {
-        // const userList = this.getAll();
-        // const users = userList.filter(user => user[field] == value);
         const users = Users.findAll({
             where: {
                 [field]: value,

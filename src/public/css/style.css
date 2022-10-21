@@ -50,10 +50,6 @@
     /*Set to match the Tailwind colour you want the active one to be */
 }
 
-#cart {
-    display: none;
-}
-
 #cart-count-items {
     color: #fafafa;
     text-align: center;
@@ -61,4 +57,12 @@
 
 #cart-count-notification {
     background-color: transparent;
+}
+
+.cart-show {
+    display: block;
+}
+
+.cart-hide {
+    display: none;
 }
