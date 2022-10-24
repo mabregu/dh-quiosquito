@@ -9,7 +9,7 @@ const mainController = {
             .then(products => {
                 res.render('index', {
                     products: products || [],
-                    user: req.session.user || null,
+                    //user: req.session.user || null,
                     isGuest: isGuest(req.session),
                     isLoggedIn: isLoggedIn(req.session),
                 });
@@ -52,7 +52,8 @@ const mainController = {
                     });
                 }
 
-                req.session.user = user;
+                res.locals.user = req.session.user = user;
+                
                 if (currentUser.remember) {
                     req.session.cookie.maxAge = 1000 * 60 * 60 * 24 * 7;
                 }

@@ -11,9 +11,40 @@ const InvoiceModel = {
         return invoices;
     },
     find: function (id) {
-        const invoice = db.Invoice.findByPk(id);
+        const invoice = db.Invoice.findByPk(id, {
+            include: [
+                {
+                    model: db.InvoiceDetail,
+                    as: 'items',
+                    include: [
+                        {
+                            model: db.Products,
+                            as: 'product',
+                            include: ['images']
+                        }
+                    ]
+                }
+            ]
+        });
 
         return invoice;
+    },
+    findByUser: function (userId) {
+        const invoices = db.Invoice.findAll({
+            include: [
+                {
+                    model: db.InvoiceDetail,
+                    as: 'items',
+                    include: ['product']
+                }
+            ],
+            where: {
+                user_id: userId,
+                deletedAt: null
+            }
+        });
+        
+        return invoices ? invoices : [];
     },
     create: function (invoice) {
         try {

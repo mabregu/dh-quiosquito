@@ -23,7 +23,17 @@ const invoiceController = {
             console.error(error);
             return res.status(500).json({ error: 'Internal server error' });
         }
-    }
+    },
+    show: async (req, res) => {
+        try {
+            let invoice = await Invoice.find(req.params.id);
+            
+            return res.render('customers/invoice/show', { invoice });
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ error: 'Internal server error' });
+        }
+    },
 }
 
 module.exports = invoiceController;

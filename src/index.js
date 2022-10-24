@@ -15,6 +15,7 @@ const productsRoutes = require('./routes/productsRoutes');
 const cartRoutes = require('./routes/cartRoutes');
 const checkoutRoutes = require('./routes/checkoutRoutes');
 const invoiceRoutes = require('./routes/invoiceRoutes');
+const customerRoutes = require('./routes/customerRoutes');
 
 const remember = require('./middlewares/rememberMe');
 const { log } = require('console');
@@ -50,6 +51,7 @@ app.use(session({
         maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
     }
 }));
+
 app.use(remember);
 
 // Routes
@@ -58,6 +60,7 @@ app.use('/products', productsRoutes);
 app.use('/cart', cartRoutes);
 app.use('/checkout', checkoutRoutes);
 app.use('/invoice', invoiceRoutes);
+app.use('/customer', customerRoutes);
 
 // api routes
 app.use("/api/products", productsApiRoutes);
