@@ -35,8 +35,12 @@
 
     <!-- Footer -->
     <%- include('../partials/footer') %>
-    <script src="/js/cart.js"></script>
-    <script>removeItems();</script>
+
+    <script src="/js/purchase.js"></script>
+    <script>
+        savePurchase('approved');
+        removeItems();
+    </script>
 </body>
 
 </html>

@@ -14,6 +14,7 @@ const imagesApiRoutes = require('./routes/api/images');
 const productsRoutes = require('./routes/productsRoutes');
 const cartRoutes = require('./routes/cartRoutes');
 const checkoutRoutes = require('./routes/checkoutRoutes');
+const invoiceRoutes = require('./routes/invoiceRoutes');
 
 const remember = require('./middlewares/rememberMe');
 const { log } = require('console');
@@ -37,19 +38,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use(cors({
-    origin: '*',
-}));
-
-// cors - permitir leer el recurso remoto https://www.mercadopago.com.ar
-// app.use((req, res, next) => {
-//     res.header('Access-Control-Allow-Origin', '*');
-//     res.header('Access-Control-Allow-Origin', 'https://www.mercadopago.com.ar');
-//     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-//     res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-//     next();
-// });
-
+app.use(cors(corsOptions));
 app.use(morgan('dev'));
 app.use(methodOverride('_method'));
 app.use(cookieParser());
@@ -68,6 +57,7 @@ app.use(mainRoutes);
 app.use('/products', productsRoutes);
 app.use('/cart', cartRoutes);
 app.use('/checkout', checkoutRoutes);
+app.use('/invoice', invoiceRoutes);
 
 // api routes
 app.use("/api/products", productsApiRoutes);

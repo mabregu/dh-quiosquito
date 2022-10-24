@@ -33,7 +33,7 @@ if (addToCartBtn) {
     addToCartBtn.onclick = (e) => {
         e.preventDefault();
         let product = {
-            id: e.target.dataset.id,
+            product_id: e.target.dataset.id,
             name: e.target.dataset.name,
             description: e.target.dataset.description,
             unit_price: e.target.dataset.price,
@@ -59,7 +59,7 @@ function addProductListToCart() {
 
 function addProductItem(product) {
     let li = `
-        <li id="cart-item-${product.id}" class="flex py-6 cart-item">
+        <li id="cart-item-${product.product_id}" class="flex py-6 cart-item">
             <div class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                 <img src="${product.image}" 
                     alt="${product.name}" 
@@ -78,14 +78,14 @@ function addProductItem(product) {
                 </div>
                 <div class="flex flex-1 items-end justify-between text-sm">
                     <p class="text-gray-500">
-                        Cantidad: <span id="cart-item-quantity-${product.id}">${product.quantity}</span>
+                        Cantidad: <span id="cart-item-quantity-${product.product_id}">${product.quantity}</span>
                     </p>
-                    <input type="number" class="form-input w-16 text-center" value="${product.quantity}" min="1" max="10" step="1" data-id="${product.id}" onchange="updateQuantity(this)" id="change-cart-item-quantity-${product.id}">
+                    <input type="number" class="form-input w-16 text-center" value="${product.quantity}" min="1" max="10" step="1" data-id="${product.product_id}" onchange="updateQuantity(this)" id="change-cart-item-quantity-${product.product_id}">
                     <div class="flex">
                         <button 
                             type="button" 
                             class="font-medium text-indigo-600 hover:text-indigo-500"
-                            onclick="removeItemCart('cart-item-${product.id}')"
+                            onclick="removeItemCart('cart-item-${product.product_id}')"
                         >Remove</button>
                     </div>
                 </div>
@@ -99,7 +99,7 @@ function addProductItem(product) {
 function removeItemCart(elementId) {
     document.getElementById(elementId).remove();
     let productList = getCart();
-    let product = productList.find(p => p.id == elementId.split('-')[3]);
+    let product = productList.find(p => p.product_id == elementId.split('-')[3]);
     let index = productList.indexOf(product);
     productList.splice(index, 1);
     localStorage.setItem('cart', JSON.stringify(productList));
@@ -131,11 +131,11 @@ function notificationCart() {
 function updateOrCreateCart(product) {
     let productList = getCart();
     if (productList) {
-        let productFound = productList.find(p => p.id == product.id);
+        let productFound = productList.find(p => p.product_id == product.product_id);
         if (productFound) {
             productFound.quantity += 1;
-            document.getElementById(`cart-item-quantity-${product.id}`).innerText = productFound.quantity;
-            document.getElementById(`change-cart-item-quantity-${product.id}`).value = productFound.quantity;
+            document.getElementById(`cart-item-quantity-${product.product_id}`).innerText = productFound.quantity;
+            document.getElementById(`change-cart-item-quantity-${product.product_id}`).value = productFound.quantity;
         } else {
             product.quantity = 1;
             productList.push(product);
@@ -154,10 +154,10 @@ function updateOrCreateCart(product) {
 
 function updateQuantity(element) {
     let productList = getCart();
-    let productFound = productList.find(p => p.id == element.dataset.id);
+    let productFound = productList.find(p => p.product_id == element.dataset.id);
     if (productFound) {
         productFound.quantity = element.value;
-        document.getElementById(`cart-item-quantity-${productFound.id}`).innerText = productFound.quantity;
+        document.getElementById(`cart-item-quantity-${productFound.product_id}`).innerText = productFound.quantity;
     }
     
     localStorage.setItem('cart', JSON.stringify(productList));
