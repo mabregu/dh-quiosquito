@@ -70,16 +70,34 @@
                 </div>
                 <p class="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
                 <div class="mt-6">
-                <a href="#" class="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700">Checkout</a>
+                    <% if (locals.user && user) { %>                    
+                        <form id="form-checkout">
+                            <!-- items, installments, shipments -->
+                            <input type="hidden" name="items">
+                            <input type="hidden" name="installments">
+                            <input type="hidden" name="shipments">
+                            <button id="cart-btn-checkout"
+                                type="submit"
+                                class="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 w-full"
+                            >Checkout</button>
+                        </form>
+                    <% } else { %>
+                        <a id="cart-btn-checkout"
+                            href="/login"
+                            class="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
+                        >
+                            Checkout
+                        </a>
+                    <% } %>
                 </div>
                 <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
-                <p>
-                    or
-                    <a href="/" class="font-medium text-indigo-600 hover:text-indigo-500">
-                        Continue Shopping
-                        <span aria-hidden="true"> &rarr;</span>
-                    </a>
-                </p>
+                    <p>
+                        or
+                        <a href="/" class="font-medium text-indigo-600 hover:text-indigo-500">
+                            Continue Shopping
+                            <span aria-hidden="true"> &rarr;</span>
+                        </a>
+                    </p>
                 </div>
             </div>
             </div>
@@ -90,3 +108,4 @@
 </div>
 
 <script src="/js/cart.js"></script>
+<script src="/js/checkout.js"></script>

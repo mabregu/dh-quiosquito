@@ -7,6 +7,7 @@ let cartCountNotification = document.getElementById("cart-count-notification");
 let cartCountItems = document.getElementById("cart-count-items");
 let cartSubtotal = document.getElementById("cart-subtotal");
 let spaceCart = document.querySelectorAll('.pointer-events-auto');
+let cartCheckoutBtn = document.getElementById("cart-btn-checkout");
 
 addProductListToCart();
 notificationCart();
@@ -35,8 +36,8 @@ if (addToCartBtn) {
             id: e.target.dataset.id,
             name: e.target.dataset.name,
             description: e.target.dataset.description,
-            price: e.target.dataset.price,
-            currency: e.target.dataset.currency,
+            unit_price: e.target.dataset.price,
+            currency_id: e.target.dataset.currency,
             image: e.target.dataset.image
         }
         
@@ -44,10 +45,13 @@ if (addToCartBtn) {
     };
 }
 
+cartCheckoutBtn.onclick = () => {
+    
+}
+
 function addProductListToCart() {
     let productList = getCart();
     if (productList) {
-        console.log("addProductListToCart", productList);
         productList.forEach(product => addProductItem(product));
         cartSubtotal.innerText = getSubtotal(productList);
     }
@@ -68,7 +72,7 @@ function addProductItem(product) {
                     <h3>
                         <a href="#">${product.name}</a>
                     </h3>
-                    <p class="ml-4">${product.currency} ${product.price}</p>
+                    <p class="ml-4">${product.currency_id} ${product.unit_price}</p>
                     </div>
                     <p class="mt-1 text-sm text-gray-500">${product.description}</p>
                 </div>
@@ -170,5 +174,5 @@ function getCart() {
 }
 
 function getSubtotal(cart) {
-    return cart.map(item => item.quantity * item.price).reduce((prev, curr) => prev + curr, 0);
+    return cart.map(item => item.quantity * item.unit_price).reduce((prev, curr) => prev + curr, 0);
 }

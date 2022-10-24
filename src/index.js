@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const path = require('path');
+const cors = require('cors');
 const morgan = require('morgan');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
@@ -12,9 +13,20 @@ const productsApiRoutes = require('./routes/api/products');
 const imagesApiRoutes = require('./routes/api/images');
 const productsRoutes = require('./routes/productsRoutes');
 const cartRoutes = require('./routes/cartRoutes');
+const checkoutRoutes = require('./routes/checkoutRoutes');
 
 const remember = require('./middlewares/rememberMe');
 const { log } = require('console');
+
+const corsOptions = {
+    origin: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    credentials: true,
+    optionsSuccessStatus: 200,
+    allowedHeaders: ['Content-Type', 'Authorization', 'Origin', 'X-Requested-With', 'Accept'],
+    preflightContinue: false,
+    maxAge: 86400,
+};
 
 // Set the view engine to ejs
 app.set('view engine', 'ejs');
@@ -24,6 +36,20 @@ app.set('views', './src/views');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+app.use(cors({
+    origin: '*',
+}));
+
+// cors - permitir leer el recurso remoto https://www.mercadopago.com.ar
+// app.use((req, res, next) => {
+//     res.header('Access-Control-Allow-Origin', '*');
+//     res.header('Access-Control-Allow-Origin', 'https://www.mercadopago.com.ar');
+//     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+//     res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+//     next();
+// });
+
 app.use(morgan('dev'));
 app.use(methodOverride('_method'));
 app.use(cookieParser());
@@ -41,6 +67,7 @@ app.use(remember);
 app.use(mainRoutes);
 app.use('/products', productsRoutes);
 app.use('/cart', cartRoutes);
+app.use('/checkout', checkoutRoutes);
 
 // api routes
 app.use("/api/products", productsApiRoutes);

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/head', { title: ' | Success' }) %>
+</head>
+
+<body class="bg-white text-gray-600 work-sans leading-normal text-base tracking-normal">
+    <!--Nav-->
+    <%- include('../partials/nav') %>
+
+    <!-- Pago realiado con exito -->
+    <section class="bg-white border-b py-8">
+        <div class="container max-w-5xl mx-auto m-8">
+            <h1 class="w-full my-2 text-5xl font-bold leading-tight text-center text-gray-800">¡Gracias por tu compra!</h1>
+            <div class="w-full mb-4">
+                <div class="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"></div>
+            </div>
+            <div class="flex flex-wrap">
+                <div class="w-full sm:w-1/2 p-6">
+                    <h3 class="text-3xl text-gray-800 font-bold leading-none mb-3">Tu pedido ha sido realizado con éxito</h3>
+                    <p class="text-gray-600 mb-8">En breve recibirás un correo electrónico con los detalles de tu pedido.</p>
+                </div>
+            </div>
+        </div>
+        <!-- continuar comprando -->
+        <div class="container max-w-5xl mx-auto m-8">
+            <div class="flex flex-wrap">
+                <div class="w-full sm:w-1/2 p-6">
+                    <a href="/" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Continuar comprando</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <%- include('../partials/footer') %>
+    <script src="/js/cart.js"></script>
+    <script>removeItems();</script>
+</body>
+
+</html>
