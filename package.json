@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "clear && nodemon ./src/index.js --ignore views/ --ignore ./src/data/",
+    "build": "clear && sequelize db:migrate && sequelize db:seed:all",
     "start": "node src/index.js"
   },
   "keywords": [],
