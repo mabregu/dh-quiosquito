@@ -11,11 +11,31 @@ module.exports = {
       name: {
         type: Sequelize.STRING
       },
+      code: {
+        type: Sequelize.STRING
+      },
       symbol: {
         type: Sequelize.STRING
       },
-      code: {
-        type: Sequelize.STRING
+      precision: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 2
+      },
+      thousand_separator: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        defaultValue: ','
+      },
+      decimal_separator: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        defaultValue: '.'
+      },
+      swap_currency_symbol: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
       },
       createdAt: {
         allowNull: false,

@@ -43,15 +43,29 @@
 
           <!-- Reviews -->
           <%- include('../components/reviews') %>
-
-          <form class="mt-10">
-            <button 
-              type="submit" 
-              class="mt-10 w-full bg-purple-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
-            >
+          <% if (locals.user && user) { %>
+            <form class="mt-10" id="form-checkout">
+              <button id="buy-btn" 
+                type="submit" 
+                class="mt-10 w-full bg-purple-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+                data-id="<%= product.id %>"
+                data-name="<%= product.name %>"
+                data-description="<%= product.description %>"
+                data-price="<%= product.price %>"
+                data-currency="<%= product.currency.code %>"
+                <% if (product.images) { %>
+                  data-image="<%= product.images[0].path %>"
+                <% } %>
+              >
+                Buy
+              </button>
+            </form>
+          <% } else { %>
+            <a href="/login" class="mt-10 w-full bg-purple-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
               Buy
-            </button>
-            
+            </a>
+          <% } %>
+
             <button id="add-to-cart-btn"
               type="submit" 
               class="mt-10 w-full bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -66,7 +80,6 @@
             >
               Add to cart
             </button>
-          </form>
         </div>
 
         <div class="py-10 lg:pt-6 lg:pb-16 lg:col-start-1 lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
