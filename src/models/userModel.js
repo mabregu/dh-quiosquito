@@ -1,13 +1,11 @@
 const fs = require('fs');
 const path = require('path');
-const uuid = require('uuid');
 const bcrypt = require('bcrypt');
 const db = require('../database/models');
 
 const User = {
     userListPath: path.resolve(__dirname, '../data/users.json'),
     getAll: function () {
-        //const userList = JSON.parse(fs.readFileSync(this.userListPath, 'utf8'));
         const userList = db.Users.findAll({
             where: {
                 deletedAt: null

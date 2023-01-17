@@ -1,17 +1,19 @@
 const { validationResult } = require('express-validator');
 const ProductModel = require('../models/productModel');
 const UserModel = require('../models/userModel');
+const FavoriteModel = require('../models/favoriteModel');
 const { isGuest, isLoggedIn } = require('../helpers/userHelpers');
 
 const mainController = {
     home: function (req, res) {
+        
         ProductModel.findAll()
             .then(products => {
                 res.render('index', {
                     products: products || [],
-                    //user: req.session.user || null,
                     isGuest: isGuest(req.session),
                     isLoggedIn: isLoggedIn(req.session),
+                    favorites: FavoriteModel.getFavorites(req.session.user.id)
                 });
             })
             .catch(error => {
@@ -89,7 +91,7 @@ const mainController = {
             }
 
             let user = await UserModel.create(newUser);
-
+            
             if (user.error) {
                 return res.render('auth/register', {
                     errors: user.error,
