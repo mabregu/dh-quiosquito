@@ -1,12 +1,8 @@
-const fs = require('fs');
-const path = require('path');
-const uuid = require('uuid');
 const db  = require('../database/models');
 const ImageModel = require('./imageModel');
 const ProductImageModel = require('./productImageModel');
 
 const ProductModel = {
-    productListPath: path.resolve(__dirname, '../data/products.json'),
     getAll: async function () {
         let productList = [];
         try {

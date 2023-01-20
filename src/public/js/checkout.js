@@ -6,6 +6,22 @@ if (formCheckout) {
         let items = toInt(getCart());
         let installments = 6;
         let shipments = 0;
+        let buyBtn = document.getElementById('buy-btn');
+        
+        if (!items.length) {
+            items = [
+                {
+                    product_id: buyBtn.dataset.id,
+                    name: buyBtn.dataset.name,
+                    description: buyBtn.dataset.description,
+                    unit_price: parseInt(buyBtn.dataset.price),
+                    currency_id: buyBtn.dataset.currency,
+                    image: buyBtn.dataset.image,
+                    quantity: 1
+                }
+            ];
+        }
+
         
         let data = JSON.stringify({
             items,
@@ -33,6 +49,9 @@ if (formCheckout) {
 
 // Convertir precio del carrito de string a int
 function toInt(cart) {
+    if (! cart) {
+        return [];
+    }
     cart.forEach(product => {
         product.unit_price = parseInt(product.unit_price);
         product.quantity = parseInt(product.quantity);
