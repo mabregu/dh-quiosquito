@@ -1,5 +1,5 @@
 # DH - Quiosquito
-## Proyecto de prueba para alumnxs de DH
+## Proyecto de prueba para referencia de alumnxs de DH
 
 ## Instalación
 
