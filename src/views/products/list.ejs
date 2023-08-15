@@ -16,23 +16,23 @@
                                 class="hover:grow hover:shadow-lg object-cover h-48 w-96 rounded" 
                             >
                         <% } %>
-                        <p style="color: #000; font-size: 1.2rem; font-weight: bold; margin-top: 0.5rem;">
-                            <%= product.category.name %>
-                        </p>
-                        <div class="pt-3 flex items-center justify-between">
-                            <p><%= product.name %></p>
-                            <div class="pt-3 flex items-center">
-                                <% if(isLoggedIn) { %>
-                                    <!-- product actions -->
-                                    <%- include('./actions', { product: product }) %>
-                                <% } %>
-                            </div>
-                        </div>
-                        <p class="pt-1 text-gray-900">
-                            <%= product.currency.code %> 
-                            <%= product.price %>
-                        </p>
                     </a>
+                    <p style="color: #000; font-size: 1.2rem; font-weight: bold; margin-top: 0.5rem;">
+                        <%= product.category.name %>
+                    </p>
+                    <div class="pt-3 flex items-center justify-between">
+                        <p><%= product.name %></p>
+                        <div class="pt-3 flex items-center">
+                            <% if(isLoggedIn) { %>
+                                <!-- product actions -->
+                                <%- include('./actions', { product: product }) %>
+                            <% } %>
+                        </div>
+                    </div>
+                    <p class="pt-1 text-gray-900">
+                        <%= product.currency.code %> 
+                        <%= product.price %>
+                    </p>
                 </div>
             <% }) %>
 

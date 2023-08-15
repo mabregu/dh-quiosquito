@@ -21,10 +21,30 @@ function deleteProduct(element) {
     .catch(error => console.log(error));
 }
 
+function addFavorite(element) {
+    let slug = element.getAttribute('data-slug');
+    let url = '/products/favorite/' + slug;
+    
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log("addFavorite", data);
+        })
+        .catch(error => console.log(error))
+    ;
+}
+
 function favorite(element) {
     let isFavorite = element.getAttribute('data-favorite');
     let iconHeart = element.children[0];
 
+    addFavorite(element);
+    
     if (isFavorite === "false") {
         element.setAttribute('data-favorite', "true");
         element.classList.add('favorite');
@@ -52,9 +72,9 @@ function areYouSureDeleteProduct(product) {
         if (result.isConfirmed) {
             deleteProduct(product);
             Swal.fire(
-            'Deleted!',
-            'Your file has been deleted.',
-            'success'
+                'Deleted!',
+                'Your file has been deleted.',
+                'success'
             )
         }
     })

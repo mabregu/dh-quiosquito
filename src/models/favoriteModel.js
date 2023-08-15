@@ -1,41 +1,27 @@
-const db = require('../database/config/config');
+const db = require('../database/models');
 
 const favoriteModel = {
     getFavorites: async function (userId) {
-        let favorites = await db.Favorite.findAll({
+        let favorites = await db.Favorites.findAll({
             where: {
                 user_id: userId
-            },
-            include: [
-                {
-                    model: db.Product,
-                    as: 'product',
-                    include: [
-                        {
-                            model: db.Image,
-                            as: 'images',
-                            attributes: ['id', 'name', 'type', 'size', 'path'],
-                            where: {
-                                deletedAt: null
-                            }
-                        }
-                    ]
-                }
-            ]
+            }
         });
 
         return favorites;
     },
     addFavorite: async function (userId, productId) {
-        let favorite = await db.Favorite.create({
+        let favorite = await db.Favorites.create({
             user_id: userId,
-            product_id: productId
+            product_id: productId,
+            created_at: new Date(),
+            updated_at: new Date()
         });
 
         return favorite;
     },
     deleteFavorite: async function (userId, productId) {
-        let favorite = await db.Favorite.destroy({
+        let favorite = await db.Favorites.destroy({
             where: {
                 user_id: userId,
                 product_id: productId

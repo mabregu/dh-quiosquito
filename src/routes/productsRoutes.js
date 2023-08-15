@@ -20,4 +20,6 @@ router.delete('/delete/:slug', auth, productsController.delete);
 
 router.get('/:slug', productsController.show);
 
+router.post('/favorite/:slug', auth, productsController.favorite);
+
 module.exports = router;

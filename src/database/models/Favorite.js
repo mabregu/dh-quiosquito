@@ -1,5 +1,5 @@
 const Favorite = (sequelize, Sequelize) => {
-    const model = sequelize.define('favorites', {
+    const model = sequelize.define('Favorites', {
         id: {
             type: Sequelize.INTEGER,
             primaryKey: true,
@@ -13,33 +13,29 @@ const Favorite = (sequelize, Sequelize) => {
             type: Sequelize.INTEGER,
             allowNull: false
         },
-        createdAt: {
+        created_at: {
             type: Sequelize.DATE,
             allowNull: false
         },
-        updatedAt: {
+        updated_at: {
             type: Sequelize.DATE,
             allowNull: false
-        },
-        deletedAt: {
-            type: Sequelize.DATE,
-            allowNull: true
         }
     },
     {
         timestamps: false,
     });
 
-    // model.associate = (models) => {
-    //     model.belongsTo(models.users, {
-    //         foreignKey: 'user_id',
-    //         as: 'users'
-    //     });
-    //     model.belongsTo(models.products, {
-    //         foreignKey: 'product_id',
-    //         as: 'Products'
-    //     });
-    // }
+    model.associate = (models) => {
+        model.belongsTo(models.users, {
+            foreignKey: 'user_id',
+            as: 'users'
+        });
+        model.belongsTo(models.Products, {
+            foreignKey: 'product_id',
+            as: 'Products'
+        });
+    }
 
     return model;
 }

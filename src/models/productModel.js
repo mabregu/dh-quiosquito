@@ -1,37 +1,35 @@
-const db  = require('../database/models');
+const db = require('../database/models');
 const ImageModel = require('./imageModel');
 const ProductImageModel = require('./productImageModel');
 
 const ProductModel = {
-    getAll: async function () {
+    getAll: function (page = 1) {
         let productList = [];
-        try {
-            productList = await db.Products.findAll({
-                include: [
-                    'category',
-                    'currency',
-                    {
-                        model: db.Image,
-                        as: 'images',
-                        attributes: ['id', 'name', 'type', 'size', 'path'],
-                        where: {
-                            deletedAt: null
-                        }
+        productList = db.Products.findAll({
+            include: [
+                'category',
+                'currency',
+                {
+                    model: db.Image,
+                    as: 'images',
+                    attributes: ['id', 'name', 'type', 'size', 'path'],
+                    where: {
+                        deletedAt: null
                     }
-                ],
-                where: {
-                    deletedAt: null
-                },
-                limit: 16,
-            });
-        } catch (error) {
-            return error;
-        }
-
+                }
+            ],
+            where: {
+                deletedAt: null
+            },
+            offset: (page - 1) * 12,
+            limit: 12
+        });
+        
         return productList;
     },
     findAll: function () {
         const productList = this.getAll();
+
         return productList;
     },
     find: async function (id) {

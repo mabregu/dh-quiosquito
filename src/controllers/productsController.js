@@ -3,10 +3,11 @@ const { validationResult } = require('express-validator');
 const CurrencyModel = require('../models/currenciesModel');
 const CategoryModel = require('../models/categoriesModel');
 const ProductModel = require('../models/productModel');
+const FavoriteModel = require('../models/favoriteModel');
 const productsController = {
-    index: (req, res) => {
+    index: async (req, res) => {
         res.render('products/index', {
-            products: ProductModel.findAll(),
+            products: await ProductModel.findAll(),
         });
     },
     create: async (req, res) => {
@@ -152,6 +153,18 @@ const productsController = {
                 console.log(err);
             })
         ;      
+    },
+    favorite: async (req, res) => {
+        let productSlug = req.params.slug;
+        let product = await ProductModel.findBySlug(productSlug);
+        let favorite = await FavoriteModel.addFavorite(req.session.user.id, product.id);
+        
+        return res.json({
+            success: true,
+            message: 'Product favorited',
+            product,
+            favorite
+        });
     }
 }
 

@@ -5,30 +5,30 @@ const FavoriteModel = require('../models/favoriteModel');
 const { isGuest, isLoggedIn } = require('../helpers/userHelpers');
 
 const mainController = {
-    home: function (req, res) {
+    home: async function (req, res) {
+        const products = await ProductModel.findAll();
+        let favorites = [];
+        // si tenemos session podemos buscar favoritos
+        if (req.session.user) {
+            favorites = await FavoriteModel.getFavorites(req.session.user.id);
+            // si tenemos favoritos, los agregamos a los productos
+            if (favorites.length) {
+                products.forEach(product => {
+                    favorites.forEach(favorite => {
+                        if (product.id == favorite.product_id) {
+                            product.favorite = true;
+                        }
+                    });
+                });
+            }
+        }
         
-        ProductModel.findAll()
-            .then(products => {
-                res.render('index', {
-                    products: products || [],
-                    isGuest: isGuest(req.session),
-                    isLoggedIn: isLoggedIn(req.session),
-                    favorites: FavoriteModel.getFavorites(req.session.user.id)
-                });
-            })
-            .catch(error => {
-                res.render('index', {
-                    products: null,
-                    user: req.session.user || null,
-                    isGuest: isGuest(req.session),
-                    isLoggedIn: isLoggedIn(req.session),
-                    message: {
-                        type: 'danger',
-                        text: 'Error al cargar los productos: ' + error
-                    }
-                });
-            })
-        ;
+        res.render('index', {
+            products: products || [],
+            isGuest: isGuest(req.session),
+            isLoggedIn: isLoggedIn(req.session),
+            favorites: favorites,
+        });
     },
     about: function (req, res) {
         res.render('about');

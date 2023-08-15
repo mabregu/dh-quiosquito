@@ -59,6 +59,14 @@
     background-color: transparent;
 }
 
+#header {
+    z-index: 1000;
+}
+
+#cart {
+    z-index: 1010;
+}
+
 .cart-show {
     display: block;
 }
