@@ -1,4 +1,4 @@
-const Invoice = require('../../models/invoiceModel');
+const Invoice = require('../models/invoiceModel');
 const customerController = {
     index: (req, res) => {
         res.render('customer/index');
