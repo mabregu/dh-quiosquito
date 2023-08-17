@@ -51,6 +51,21 @@ const products = {
                 error: error.message 
             });
         }
+    },
+    search: async (req, res) => {
+        try {
+            let query = req.params.query;
+            
+            return res.json({
+                success: true,
+                data: await ProductModel.search(query)
+            });
+        } catch (error) {
+            return res.json({
+                success: false,
+                error: error.message 
+            });
+        }
     }
 }
 

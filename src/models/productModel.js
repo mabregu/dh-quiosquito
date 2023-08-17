@@ -192,6 +192,34 @@ const ProductModel = {
                 success: false
             };
         }
+    },
+    search: async (query) => {
+        try {
+            let products = await db.Products.findAll({
+                include: [
+                    'category',
+                    'currency',
+                    {
+                        model: db.Image,
+                        as: 'images',
+                        attributes: ['id', 'name', 'type', 'size', 'path'],
+                        where: {
+                            deletedAt: null
+                        }
+                    }
+                ],
+                where: {
+                    name: {
+                        [db.Sequelize.Op.like]: `%${query}%`
+                    },
+                    deletedAt: null
+                }
+            });
+
+            return products;
+        } catch (error) {
+            return { error, message: 'Error searching products' };
+        }
     }
 }
 

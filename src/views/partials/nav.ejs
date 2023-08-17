@@ -34,9 +34,11 @@
                     <a class="no-underline hover:no-underline text-gray-800 text-sm px-4" href="/profile">
                         <%= locals.user.name %>
                     </a>
-                    <a class="no-underline hover:no-underline text-gray-800 text-sm px-4" href="/products/create">
-                        Create
-                    </a>
+                    <% if (locals.user.isAdmin) { %>
+                        <a class="no-underline hover:no-underline text-gray-800 text-sm px-4" href="/products/create">
+                            Create
+                        </a>
+                    <% } %>
                     <a class="no-underline hover:no-underline text-gray-800 text-sm px-4" href="/customer/my_purchases">
                         My purchases
                     </a>

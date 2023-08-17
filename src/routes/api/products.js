@@ -10,6 +10,8 @@ router
     .get('/', productsController.list)
     .get('/:id', productsController.show)
     .post('/', productsController.store)
+    // search products
+    .get('/search/:query', productsController.search)
 ;
 
 module.exports = router;

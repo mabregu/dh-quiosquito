@@ -8,10 +8,10 @@ const mainController = {
     home: async function (req, res) {
         const products = await ProductModel.findAll();
         let favorites = [];
-        // si tenemos session podemos buscar favoritos
+
         if (req.session.user) {
             favorites = await FavoriteModel.getFavorites(req.session.user.id);
-            // si tenemos favoritos, los agregamos a los productos
+
             if (favorites.length) {
                 products.forEach(product => {
                     favorites.forEach(favorite => {
