@@ -16,7 +16,7 @@ const productsRoutes = require('./routes/productsRoutes');
 const cartRoutes = require('./routes/cartRoutes');
 const checkoutRoutes = require('./routes/checkoutRoutes');
 const invoiceRoutes = require('./routes/invoiceRoutes');
-// const customerRoutes = require('./routes/customerRoutes');
+const customerRoutes = require('./routes/customerRoutes');
 
 const remember = require('./middlewares/rememberMe');
 const { log } = require('console');
