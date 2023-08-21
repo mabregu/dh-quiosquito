@@ -61,7 +61,7 @@ app.use('/products', productsRoutes);
 app.use('/cart', cartRoutes);
 app.use('/checkout', checkoutRoutes);
 app.use('/invoice', invoiceRoutes);
-app.use('/customer', customerRoutes);
+// app.use('/customer', customerRoutes);
 
 // api routes
 app.use("/api/products", productsApiRoutes);
