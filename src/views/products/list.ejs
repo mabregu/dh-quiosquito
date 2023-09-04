@@ -39,9 +39,10 @@
                     </div>
                 <% }) %>
             </div>
-
+            <!-- pagination -->
+            <%- include('../components/pagination', { page, pages }) %>
         <% } else { %>
-            <h1>Sin datos <br> ¿Nos conectamos a la base de datos?</h1>
+            <h1>No products found</h1>
         <% } %>
     </div>
 

@@ -6,9 +6,12 @@ const { isGuest, isLoggedIn } = require('../helpers/userHelpers');
 
 const mainController = {
     home: async function (req, res) {
-        const products = await ProductModel.findAll();
         let favorites = [];
-
+        let limit = parseInt(req.query.limit) || 12;
+        let page = parseInt(req.query.page) || 1;
+        let products = await ProductModel.findAll(limit, page);
+        let pages = await ProductModel.countPages(limit);
+        
         if (req.session.user) {
             favorites = await FavoriteModel.getFavorites(req.session.user.id);
 
@@ -25,6 +28,8 @@ const mainController = {
         
         res.render('index', {
             products: products || [],
+            pages,
+            page,
             isGuest: isGuest(req.session),
             isLoggedIn: isLoggedIn(req.session),
             favorites: favorites,

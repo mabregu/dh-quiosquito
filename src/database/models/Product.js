@@ -1,5 +1,5 @@
 const Product = (sequelize, Sequelize) => {
-    const model = sequelize.define('Products', {
+    const model = sequelize.define('products', {
         id: {
             type: Sequelize.INTEGER,
             primaryKey: true,
@@ -63,17 +63,17 @@ const Product = (sequelize, Sequelize) => {
     );
 
     model.associate = (models) => {
-        model.belongsToMany(models.Image, {
+        model.belongsToMany(models.image, {
             through: models.ProductImage, // ProductImage is the name of the model with the association pivot table
             as: 'images', // images is the alias of the association
             foreignKey: 'product_id', // product_id is the foreign key of the association
             otherKey: 'image_id' // image_id is the other foreign key of the association
         });
-        model.belongsTo(models.Category, {
+        model.belongsTo(models.category, {
             foreignKey: 'category_id',
             as: 'category'
         });
-        model.belongsTo(models.Currency, {
+        model.belongsTo(models.currency, {
             foreignKey: 'currency_id',
             as: 'currency'
         });

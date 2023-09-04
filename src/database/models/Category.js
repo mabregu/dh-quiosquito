@@ -1,5 +1,5 @@
 const Category = (sequelize, Sequelize) => {
-    const model = sequelize.define('Category', {
+    const model = sequelize.define('category', {
             id: {
                 type: Sequelize.INTEGER,
                 primaryKey: true,
@@ -40,7 +40,7 @@ const Category = (sequelize, Sequelize) => {
     );
 
     model.associate = (models) => {
-        model.hasMany(models.Products, {
+        model.hasMany(models.products, {
             foreignKey: 'category_id',
             as: 'products'
         });

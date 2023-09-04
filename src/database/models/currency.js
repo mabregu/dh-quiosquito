@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      models.Currency.hasMany(models.Products, {
+      models.currency.hasMany(models.products, {
         foreignKey: 'currency_id',
         as: 'products'
       });
@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
     code: DataTypes.STRING
   }, {
     sequelize,
-    modelName: 'Currency',
+    modelName: 'currency',
   });
   return Currency;
 };
