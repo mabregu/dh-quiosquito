@@ -26,7 +26,7 @@ const mainController = {
             }
         }
         
-        res.render('index.ejs', {
+        res.render('index', {
             products: products || [],
             pages,
             page,

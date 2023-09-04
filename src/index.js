@@ -33,7 +33,7 @@ const corsOptions = {
 
 // Set the view engine to ejs
 app.set('view engine', 'ejs');
-app.set('views', './src/views');
+app.set('views', path.join(__dirname, 'views'));
 
 // Middlewares
 app.use(express.static(path.join(__dirname, 'public')));
