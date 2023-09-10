@@ -31,6 +31,7 @@
     "node-fetch": "^3.2.10",
     "pg": "^8.11.2",
     "pg-hstore": "^2.3.4",
+    "redis": "^4.6.8",
     "sequelize": "^6.21.3",
     "timeago.js": "^4.0.2",
     "uuid": "^8.3.2"

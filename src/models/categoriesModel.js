@@ -2,16 +2,22 @@ const fs = require("fs");
 const path = require("path");
 const uuid = require("uuid");
 const db = require("../database/models");
+const cache = require("../utils/cache");
 
 const CategoryModel = {
   categoryListPath: path.resolve(__dirname, "../data/currencies.json"),
-  getAll: function () {
-    // const categoryList = JSON.parse(fs.readFileSync(this.categoryListPath, 'utf8'));
-    const categoryList = db.category.findAll({
+  getAll: async function () {
+    const getResponse = await cache.get("categories");
+    
+    if (getResponse) return getResponse;
+    
+    const categoryList = await db.category.findAll({
       where: {
         deletedAt: null,
       },
     });
+    
+    await cache.set("categories", categoryList);
 
     return categoryList;
   },

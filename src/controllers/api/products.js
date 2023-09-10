@@ -1,5 +1,5 @@
 const ProductModel = require('../../models/productModel');
-const productHelper = require('../../helpers/products');
+const common = require('../../helpers/common');
 const products = {
     list: async (req, res) => {
         try {
@@ -31,7 +31,7 @@ const products = {
         try {
             let newProduct = {
                 name: req.body.name,
-                slug: productHelper.getSlug(req.body.name),
+                slug: common.getSlug(req.body.name),
                 description: req.body.description,
                 stock: req.body.stock || 0,
                 price: req.body.price || 0,

@@ -16,10 +16,10 @@ const productsRoutes = require('./routes/productsRoutes');
 const cartRoutes = require('./routes/cartRoutes');
 const checkoutRoutes = require('./routes/checkoutRoutes');
 const invoiceRoutes = require('./routes/invoiceRoutes');
+const categoriesRoutes = require('./routes/api/categories');
 // const customerRoutes = require('./routes/customerRoutes');
 
 const remember = require('./middlewares/rememberMe');
-const { log } = require('console');
 
 const corsOptions = {
     origin: true,
@@ -66,6 +66,7 @@ app.use('/invoice', invoiceRoutes);
 // api routes
 app.use("/api/products", productsApiRoutes);
 app.use("/api/images", imagesApiRoutes);
+app.use("/api/categories", categoriesRoutes);
 
 // Start the server
 app.listen(PORT, () => {

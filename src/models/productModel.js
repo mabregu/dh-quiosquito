@@ -1,12 +1,15 @@
 const db = require("../database/models");
 const ImageModel = require("./imageModel");
 const ProductImageModel = require("./productImageModel");
+const cache = require("../utils/cache");
 
 const ProductModel = {
-  getAll: function (limit = 12, page = 1) {
-    console.log("data pagination", limit, page);
-    let productList = [];
-    productList = db.products.findAll({
+  getAll: async function (limit = 12, page = 1) {
+    const getResponse = await cache.get("products");
+    
+    if (getResponse) return getResponse;
+    
+    let productList = await db.products.findAll({
       include: [
         "category",
         "currency",
@@ -25,6 +28,8 @@ const ProductModel = {
       limit: limit,
       offset: (page - 1) * limit,
     });
+    
+    await cache.set("products", productList);
 
     return productList;
   },
