@@ -7,6 +7,7 @@ const morgan = require('morgan');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const methodOverride = require('method-override');
+const i18n = require('./utils/translate');
 
 const PORT = process.env.PORT || 3000;
 const mainRoutes = require('./routes/mainRoutes');
@@ -39,6 +40,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(i18n.init);
 
 app.use(cors(corsOptions));
 app.use(morgan('dev'));

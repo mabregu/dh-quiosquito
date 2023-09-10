@@ -22,6 +22,7 @@
     "express-session": "^1.17.3",
     "express-validator": "^6.14.2",
     "fs-extra": "^10.1.0",
+    "i18n": "^0.15.1",
     "mercadopago": "^0.0.6",
     "method-override": "^3.0.0",
     "mongoose": "^6.5.1",
