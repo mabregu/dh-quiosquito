@@ -19,8 +19,6 @@ const User = {
         return userList;
     },
     find: function (pk) {
-        // const userList = this.getAll();
-        // const user = userList.find(user => user.id == id);
         const user = db.Users.findByPk(pk);
         return user;
     },
@@ -82,8 +80,8 @@ const User = {
                 email: user.username,
                 password: bcrypt.hashSync(user.password, 10),
                 createdAt: new Date(),
-                updatedAt: new Date()
-                
+                updatedAt: new Date(),
+                role_id: 2
             });
 
             return newUser;

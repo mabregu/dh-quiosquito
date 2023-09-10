@@ -115,7 +115,7 @@ const ProductModel = {
     const products = productList.filter((product) => product[field] == value);
     return products;
   },
-  create: function (product, files) {
+  create: async function (product, files) {
     try {
       let imagesArray = files.map((image) => {
         return {
@@ -144,6 +144,8 @@ const ProductModel = {
         },
         { include: ["images"] }
       );
+      
+      await cache.del("products");
 
       return newProduct;
     } catch (error) {
@@ -175,13 +177,15 @@ const ProductModel = {
         // add references
         if (saveimages) await ProductImageModel.store(id, saveimages);
       }
+      
+      await cache.del("products");
 
       return updated;
     } catch (error) {
       return { error, message: "Error updating product" };
     }
   },
-  delete: function (id) {
+  delete: async function (id) {
     try {
       let deleted = db.products.update(
         {
@@ -193,6 +197,8 @@ const ProductModel = {
           },
         }
       );
+      
+      await cache.del("products");
 
       return deleted;
     } catch (error) {
